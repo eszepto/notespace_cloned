@@ -1,3 +1,5 @@
 virtualenv
 *.pyc
 media
+geckodriver.log
+.vscode
