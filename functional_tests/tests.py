@@ -51,7 +51,7 @@ class NewVisitorTest(LiveServerTestCase):
 
 
 
-     def test_user_can_upload(self):
+    def test_user_can_upload(self):
 # She notices the page title ,upload button and also many lecture thumbnails.
         upload_link = self.browser.find_element_by_link_text('')
         self.assertEqual(upload_link.get_attribute('href'), 'http://localhost:8000/**/')
@@ -108,7 +108,4 @@ class NewVisitorTest(LiveServerTestCase):
 
 
 
-if __name__ == '__main__':
-    unittest.main(warnings='ignore')
-​
->>>>>>> 95ac0338a7256e69c544fc1926377c40b1876d11
+

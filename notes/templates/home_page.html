@@ -2,7 +2,7 @@
 {% block context %}
     <p> this is homepage </p>
     {% for note in notes %}
-        <a href="/notes/{{ note.index }}"> {{ note.name }} </a>
+        <a href="/notes/{{note.index }}"> {{ note.name }} </a>
     </br>
     {% endfor %}
 {% endblock context %}

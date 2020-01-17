@@ -3,7 +3,7 @@ from django.test import TestCase
 # Create your tests here.
 class Unittest(TestCase):
     pass
-    def test_can_resolve_url_to_note's_url(self):
+    def test_can_resolve_url_to_note_url(self):
         pass
 
 class NoteModelTest(TestCase):
