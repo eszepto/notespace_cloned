@@ -50,8 +50,6 @@ class NewVisitorTest(LiveServerTestCase):
 
 
 
-<<<<<<< HEAD
-=======
 
      def test_user_can_upload(self):
 # She notices the page title ,upload button and also many lecture thumbnails.
@@ -63,7 +61,6 @@ class NewVisitorTest(LiveServerTestCase):
 # It's bring her to upload lecture page.
         button = self.browser.find_element_by_id('')
         inputbox = button.find_elements_by_tag_name('input')
->>>>>>> 95ac0338a7256e69c544fc1926377c40b1876d11
 
 # There is button for uploading the pictures of lecture. 
 # She clicks and upload them.
@@ -109,8 +106,7 @@ class NewVisitorTest(LiveServerTestCase):
         time.sleep(3)
         self.browser.quit()
 
-<<<<<<< HEAD
-=======
+
 
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
