@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 {% block context %}
-    <p> this is homepage </p>
+<p> this is homepage </p>
+<div id="main">
     {% for note in notes %}
-        <a href="/notes/{{note.index }}"> {{ note.name }} </a>
+    <a href="/notes/{{note.index }}"> {{ note.name }} </a>
     </br>
     {% endfor %}
+</div>
+
 {% endblock context %}

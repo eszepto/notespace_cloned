@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>Upload</title>
+    <title>Upload the Lecture note</title>
 </head>
 
 <body>
@@ -41,13 +41,14 @@
         <form action="">
             <div class="row justify-content-end">
                 <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary mb-2">Publish</button>
+                    <button type="submit" class="btn btn-primary mb-2" id="btnPublish">Publish</button>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    <!-- browse picture column -->
-
+                    <form >
+                        Upload Pictures<br><input type="file" name="myFile" multiple>
+                    </form>
                 </div>
                 <div class="col-md-7">
                     <div class="form-group">
