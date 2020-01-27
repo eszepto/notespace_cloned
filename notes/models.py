@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 class Note(models.Model):
-    index = models.IntegerField()
+    id = models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
     name = models.TextField(max_length=200)
     desc = models.TextField(default='',max_length=1000)
     upload_time = models.DateTimeField('upload_time', null=True)
@@ -12,8 +12,9 @@ class Note(models.Model):
 
 def note_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/<>/<filename>
-    return '{0}/{1}'.format(instance.note.index, filename)
+    return '{0}/{1}'.format(instance.note.id, filename)
 class Image(models.Model):
+    index = models.IntegerField()
     note = models.ForeignKey(Note, on_delete=models.CASCADE)
     image = models.ImageField(upload_to=note_directory_path)
     

@@ -9,7 +9,7 @@ def upload_page(request):
     return render(request,'upload_page.html')
 
 def detial(request,note_index):
-    n = get_object_or_404(Note, index=note_index)
+    n = get_object_or_404(Note, pk=note_index)
     images = Image.objects.filter(note=n)
     img_url = []
     for i in images:

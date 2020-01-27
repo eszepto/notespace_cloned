@@ -3,7 +3,7 @@
 <p> this is homepage </p>
 <div id="main">
     {% for note in notes %}
-    <a href="/notes/{{note.index }}"> {{ note.name }} </a>
+    <a href="/notes/{{note.id }}"> {{ note.name }} </a>
     </br>
     {% endfor %}
 </div>
