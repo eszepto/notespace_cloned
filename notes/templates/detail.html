@@ -1,7 +1,25 @@
 {% extends 'base.html' %}
 {% block context %}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .imgbox {
+            display: grid;
+            height: 100%;
+        }
+        .center-fit {
+            max-width: 100%;
+            max-height: 100vh;
+            margin: auto;
+        }
+    </style>
     detailpage
+<div class="imgbox">
     {% for i in images_url %}
-        <img src="{{ i }}">{{ i }}</a>
+        <img class="center-fit" src="{{ i }}">{{ i }}</a>
     {% endfor %}
+</div>
+</body>
 {% endblock context %}
