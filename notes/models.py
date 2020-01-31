@@ -1,12 +1,27 @@
 from django.db import models
-
+import datetime
 # Create your models here.
+class Tag(models.Model):
+    title = models.CharField(max_length=250)
+    slug = models.SlugField(blank=True, null=True)
+
+    class Meta:
+        verbose_name = "tag"
+        verbose_name_plural = "tags"
+        ordering = ['title']
+    
+    
+    def get_absolute_url(self):
+     return "/tags/%s/" % self.slug
+    def __str__(self):
+        return self.title
 
 class Note(models.Model):
     id = models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
-    name = models.TextField(max_length=200)
-    desc = models.TextField(default='',max_length=1000)
-    upload_time = models.DateTimeField('upload_time', null=True)
+    name = models.CharField(max_length=200)
+    desc = models.CharField(default='',max_length=1000)
+    upload_time = models.DateTimeField('upload_time', null=True, default=datetime.datetime.now)
+    tag =  models.ManyToManyField(Tag,related_name='notes')
     def __str__(self):
         return self.name
 
@@ -20,16 +35,5 @@ class Image(models.Model):
     
 
 
-class Tag(models.Model):
-    title = models.CharField(max_length=250, blank=True)
-    slug = models.SlugField(blank=True, null=True)
 
-    class Meta:
-        verbose_name = "tag"
-        verbose_name_plural = "tags"
-        ordering = ['title']
-    
-    
-    def get_absolute_url(self):
-     return "/tags/%s/" % self.slug
 
