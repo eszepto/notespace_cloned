@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block context %}
+
     <style>
         * {
             margin: 0;
@@ -14,12 +15,28 @@
             max-height: 100vh;
             margin: auto;
         }
+        .slider {
+           width: 100vh;
+           height: 100%;
+           display: flex;
+           overflow-x: auto;
+           margin: auto;
+        }
+        .slide {
+           width: 100vh;
+           flex-shrink: 0;
+           height: 100%;
+        }
     </style>
     detailpage
-<div class="imgbox">
+<div class="slider">
+
     {% for i in images_url %}
-        <img class="center-fit" src="{{ i }}">{{ i }}</a>
+        <div class='slide'>
+        <img class="center-fit" src="{{ i }}"></a>
+        </div>
     {% endfor %}
+
 </div>
-</body>
+ajajhajhja
 {% endblock context %}
