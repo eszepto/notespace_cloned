@@ -24,10 +24,11 @@ from notes import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^$',views.home_page, name="home_page"),
     url(r'^upload/',views.upload_page, name='upload_page'),
     url(r'^notes/',include('notes.urls')),
-    url(r'^search/$', views.search),
-    url(r'$',views.home_page, name="home_page"),
+    url(r'^search/$', views.search, name="search"),
+    
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
