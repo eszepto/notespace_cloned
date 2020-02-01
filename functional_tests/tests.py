@@ -118,10 +118,16 @@ class NewVisitorTest(LiveServerTestCase):
     # # She types “computer” into a text box (Tina's program is Sci-Math-Com).
     # # When she hits the enter, the page refreshs and the lectures about computer appear.
         time.sleep(1)
-        inputbox.send_keys('computer')
+        inputbox.send_keys('django')
+        inputbox.enter()
+        time.sleep(5)
+        
+        self.assertIn("searching for 'django'", self.browser.find_element_by_tag_name("body"))
+        
 
-        time.sleep(1)
-        inputbox.click() 
+
+
+
     # # She chooses one of many lectures to find out.
     # # She clicks on the thumbnail, the page update then the lecture appears​.
 

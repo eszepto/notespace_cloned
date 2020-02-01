@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block context %}
+
+
+<h3> searching for '{{search_key}}'
+</h3>
+{% if searched_notes %}
+    {% for note in searched_notes %}
+        <a href="/notes/{{note.id }}"> {{note.name}} </a>
+        </br>
+    {% endfor %}
+
+{% else %}
+    <p> Not found </p>
+
+{% endif %}
+
+{% endblock context %}

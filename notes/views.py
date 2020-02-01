@@ -15,3 +15,14 @@ def detial(request,note_index):
     for i in images:
         img_url.append(i.image.url)
     return render(request,'detail.html',{'images_url':img_url})
+
+def search(request):
+    query_word = request.GET.get("q",'')
+    print(query_word)
+    searched_notes = Note.objects.filter(name__icontains=query_word)
+   
+    print(searched_notes)
+    return render(request, 'search_result.html', 
+    {
+        'search_key':query_word,
+        'searched_notes':searched_notes })

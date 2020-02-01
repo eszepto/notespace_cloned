@@ -38,7 +38,7 @@
     </div>
 
     <div class="container-fluid">
-        <form action="">
+        <form action="/upload" method="POST" >
             <div class="row justify-content-end">
                 <div class="col-md-2">
                     <button type="submit" class="btn btn-primary mb-2" id="btnPublish">Publish</button>
@@ -53,22 +53,22 @@
                 <div class="col-md-7">
                     <div class="form-group">
                         <label for="LectureName">Lecture note's name</label>
-                        <input type="text" class="form-control" id="LectureName">
+                        <input type="text" class="form-control" id="LectureName" name="name">
                         <div class="valid-feedback">
                             Please fill Lecture note's name.
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="Subject">Subject</label>
-                        <input type="text" class="form-control" id="Subject">
+                        <input type="text" class="form-control" id="Subject" name="subject">
                     </div>
                     <div class="form-group">
                         <label for="Description">Description</label>
-                        <textarea class="form-control" id="Description" rows="4"></textarea>
+                        <textarea class="form-control" id="Description" rows="4" name="desc"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="WriterName">Guest name</label>
-                        <input type="text" class="form-control" id="WriterName">
+                        <input type="text" class="form-control" id="WriterName" name"guestname"">
                     </div>
                 </div>
             </div>
