@@ -4,9 +4,22 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
 from selenium.common.exceptions import WebDriverException
-
+from notes.models import Note,Image
 class NewVisitorTest(LiveServerTestCase):
     def setUp(self):
+        note1 = Note()
+        note1.name = "django"
+        note1.save()
+
+        note2 = Note()
+        note2.name = "djang"
+        note2.save()
+
+        note3 = Note()
+        note3.name = "writing unit test"
+        note3.desc = "for django"
+        note3.save()
+
         self.browser = webdriver.Firefox()
     def tearDown(self):
         pass
@@ -35,7 +48,7 @@ class NewVisitorTest(LiveServerTestCase):
         header_text = self.browser.find_element_by_link_text('NoteSpace').text 
         self.assertIn('NoteSpace', header_text)
     
-        button = self.browser.find_element_by_id('')
+        button = self.browser.find_element_by_tag_name('body')
         inputbox = button.find_elements_by_tag_name('input')
         self.assertEqual(inputbox.get_attribute('value'), 'Search')
     # # She types “computer” into a text box (Tina's program is Sci-Math-Com).
@@ -54,18 +67,25 @@ class NewVisitorTest(LiveServerTestCase):
     # # She reads all the page after that she clicks on homepage button.
     # # Suddenly the page redirect to the homepage. 
     # # Satisfied, Tina goes back to sleep.
-    
-        upload_btn = self.browser.find_elements_by_id('upload_btn')[0]
-        self.assertTrue(upload_btn)
 
-        #and also many lecture thumbnails.
-        pass
+    def test_user_can_search(self):
+        self.browser.get(self.live_server_url)
+        time.sleep(5)
+        inputbox = self.browser.find_element_by_tag_name('input')
+        self.assertEqual(inputbox.get_attribute('placeholder'), 'Search')
+    # # She types “computer” into a text box (Tina's program is Sci-Math-Com).
+    # # When she hits the enter, the page refreshs and the lectures about computer appear.
+        time.sleep(1)
+        inputbox.send_keys('django')
+        inputbox.send_keys(Keys.ENTER)
+        time.sleep(5)
+        search_results = self.browser.find_elements_by_tag_name("a")
+        webpage = self.browser.find_element_by_tag_name("body")
+        self.assertIn("searching for 'django'", webpage.text)
+        self.assertIn("django", [item.text for item in search_results])
+        self.assertIn("djang", [item.text for item in search_results])
+        self.assertIn("writing unit test", [item.text for item in search_results])
         
-        # She is invited to click on upload button.
-        upload_btn.send_keys(Keys.ENTER)
-        time.sleep(2)
-        # It's bring her to upload lecture page.
-        self.assertIn('Upload the Lecture note', self.browser.title)
 
 
 
@@ -111,29 +131,12 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertIn('Form interaction',
         [link.text for link in main.find_elements_by_tag_name('a')])
 
-    def test_user_can_search(self):
-        button = self.browser.find_element_by_id('')
-        inputbox = button.find_elements_by_tag_name('input')
-        self.assertEqual(inputbox.get_attribute('value'), 'Search')
-    # # She types “computer” into a text box (Tina's program is Sci-Math-Com).
-    # # When she hits the enter, the page refreshs and the lectures about computer appear.
-        time.sleep(1)
-        inputbox.send_keys('django')
-        inputbox.enter()
-        time.sleep(5)
-        
-        self.assertIn("searching for 'django'", self.browser.find_element_by_tag_name("body"))
-        
-
-
 
 
     # # She chooses one of many lectures to find out.
     # # She clicks on the thumbnail, the page update then the lecture appears​.
-
     # # She notices the lecture name, owner name, description, arrow buttons and logo button.
     # # When she clicks on arrow button, then the next page of lecture appear​.
-        inputbox.send_keys(next)
     # # She reads all the page after that she clicks on homepage button.    
     # # Suddenly the page redirect to the homepage. 
     # # Satisfied, Tina goes back to sleep.
