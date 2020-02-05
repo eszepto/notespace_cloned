@@ -73,7 +73,6 @@ class NoteModelTest(LiveServerTestCase):
         note3.save()
 
         search_result = Note.objects.filter(name__trigram_similar="django").filter(desc__trigram_similar="django")
-        self.
     
     
         

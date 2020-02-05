@@ -25,8 +25,9 @@ class NewVisitorTest(LiveServerTestCase):
         pass
         self.browser.quit()
 
-    def wait_for_page_redirect(self):
-        MAX_WAIT = 5
+    def wait_for_page_update(self):
+        time.sleep(1)
+        MAX_WAIT = 16
         start_time = time.time()
         while True:  
             try:
@@ -53,10 +54,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertEqual(inputbox.get_attribute('value'), 'Search')
     # # She types “computer” into a text box (Tina's program is Sci-Math-Com).
     # # When she hits the enter, the page refreshs and the lectures about computer appear.
-        time.sleep(1)
         inputbox.send_keys('computer')
-
-        time.sleep(1)
         inputbox.click() 
     # # She chooses one of many lectures to find out.
     # # She clicks on the thumbnail, the page update then the lecture appears​.
@@ -70,15 +68,14 @@ class NewVisitorTest(LiveServerTestCase):
 
     def test_user_can_search(self):
         self.browser.get(self.live_server_url)
-        time.sleep(5)
+        self.wait_for_page_update()
         inputbox = self.browser.find_element_by_tag_name('input')
         self.assertEqual(inputbox.get_attribute('placeholder'), 'Search')
-    # # She types “computer” into a text box (Tina's program is Sci-Math-Com).
-    # # When she hits the enter, the page refreshs and the lectures about computer appear.
-        time.sleep(1)
+    # # She types “django” into a text box 
+    # # When she hits the enter, the page refreshs and the lectures about 'django' appear.
         inputbox.send_keys('django')
         inputbox.send_keys(Keys.ENTER)
-        time.sleep(5)
+        self.wait_for_page_update()
         search_results = self.browser.find_elements_by_tag_name("a")
         webpage = self.browser.find_element_by_tag_name("body")
         self.assertIn("searching for 'django'", webpage.text)
@@ -98,7 +95,7 @@ class NewVisitorTest(LiveServerTestCase):
         
     # She is invited to click on upload button.
         upload_btn.send_keys(Keys.ENTER)
-        time.sleep(2)
+        self.wait_for_page_update()
     # It's bring her to upload lecture page.
         self.assertIn('Upload the Lecture note', self.browser.title)
         button_publish = self.browser.find_element_by_id('btnPublish')
@@ -114,17 +111,17 @@ class NewVisitorTest(LiveServerTestCase):
         writerNameTextBox = self.browser.find_element_by_id('WriterName')
         
     # She fills the name and details into the box and set owner name as Tina.
-        time.sleep(1)
+      
         lectureNameTextBox.send_keys('Form interaction')
-        time.sleep(1)
+        
         subjectTextBox.send_keys('Django Basic')
-        time.sleep(1)
+   
         descriptionTextArea.send_keys('made with love and care')
-        time.sleep(1)
+  
         writerNameTextBox.send_keys('Tina')
     # She click on publish button
         button_publish.send_keys(Keys.ENTER)
-        time.sleep(2)
+        self.wait_for_page_update()
     # the page refresh then she see her lecture on the homepage.
         self.browser.get(self.live_server_url)
         main = self.browser.find_element_by_id('main')
@@ -140,7 +137,7 @@ class NewVisitorTest(LiveServerTestCase):
     # # She reads all the page after that she clicks on homepage button.    
     # # Suddenly the page redirect to the homepage. 
     # # Satisfied, Tina goes back to sleep.
-        time.sleep(3)
+      
         self.browser.quit()
 
 

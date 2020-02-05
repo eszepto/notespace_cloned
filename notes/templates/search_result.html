@@ -6,8 +6,18 @@
 </h3>
 {% if searched_notes %}
     {% for note in searched_notes %}
-        <a href="/notes/{{note.id }}"> {{note.name}} </a>
-        </br>
+    <div class="card" style="width: 18rem;">
+        
+        <img class="card-img-top" src="{{ note.get_thumb }}" alt="Card image cap">
+        <div class="card-body">
+            <a href="/notes/{{note.id }}"><h5 class="card-title">{{note.name}}</h5></a>
+          
+          <p class="card-text" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;max-width: 300px;">{{note.desc}}</p>
+        </div>
+        
+    </div>
+    
+    <br/>    
     {% endfor %}
 
 {% else %}
