@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <title>NoteSpace</title>
 </head>
 <body>
@@ -22,7 +22,7 @@
         
         <div class="my-0 mr-md-5 ml-md-5 col-md-5 col-sm-5">
             <form class="form-inline mr-md-auto ml-md-auto " action="{% url 'search' %}" method="GET">
-                        <input type="text" class="form-control col-md-10" placeholder="Search" name="q" aria-describedby="basic-addon2"></input>
+                        <input id="searchbox" type="text" class="form-control col-md-10" placeholder="Search" name="q" aria-describedby="basic-addon2"></input>
                         <div class="input-group-append ">
                             <button  class="btn btn-outline-secondary col-md-auto " type="submit">Search</button>
                         </div>
