@@ -14,7 +14,7 @@ def detial(request,note_index):
     img_url = []
     for i in images:
         img_url.append(i.image.url)
-    return render(request,'detail.html',{'images_url':img_url})
+    return render(request,'detail.html',{'images_url':img_url,'note':n})
 
 def search(request):
     query_word = request.GET.get("q",'')
