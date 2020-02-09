@@ -7,6 +7,8 @@ def home_page(request):
     return render(request,'home_page.html',{'notes':notes})
 def upload_page(request):
     return render(request,'upload_page.html')
+def uploadapi(request):
+    pass
 
 def detial(request,note_index):
     n = get_object_or_404(Note, pk=note_index)

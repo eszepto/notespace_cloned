@@ -1,6 +1,6 @@
 from django.db import models
 from sorl.thumbnail import ImageField, get_thumbnail
-
+import sorl.thumbnail
 import datetime
 # Create your models here.
 class Tag(models.Model):
@@ -30,6 +30,7 @@ class Note(models.Model):
     def get_thumb(self):
         try:
             i = Image.objects.filter(note=self)[0].get_thumb()
+            print(i)
             return i # remember that sorl objects have url/width/height attributes
         except:
             return "/media/loading.jpg"
@@ -40,9 +41,9 @@ def note_directory_path(instance, filename):
 class Image(models.Model):
     index = models.IntegerField()
     note = models.ForeignKey(Note, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to=note_directory_path)
+    image = ImageField(upload_to=note_directory_path)
     def get_thumb(self):
-        im = get_thumbnail(self.image, '475x350', crop='center', quality=99)
+        im = get_thumbnail(self.image, '500x500', crop='center', quality=99)
         return im.url # remember that sorl objects have url/width/height attributes
         
 

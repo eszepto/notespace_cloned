@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404
 from .models import Note, Image
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db.models import Q
+import datetime
 # Create your tests here.
 class Unittest(TestCase):
     def test_can_resolve_url_to_note_url(self):
@@ -56,7 +57,7 @@ class NoteModelTest(LiveServerTestCase):
         note1 = Note()
         note1.save()
         print(note1.upload_time)
-        self.assertNotEqual(note1.upload_time, None)
+        self.assertLess(note1.upload_time, datetime.datetime.now())
 
     def test_database_can_search_by_similar(self):
         note1 = Note()

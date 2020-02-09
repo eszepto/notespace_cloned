@@ -8,7 +8,7 @@
     {% for note in searched_notes %}
     <div class="card" style="width: 18rem;">
         
-        <img class="card-img-top" src="{{ note.get_thumb }}" alt="Card image cap">
+        <img class="card-img-top" src="{{ note.get_thumb }}">
         <div class="card-body">
             <a href="/notes/{{note.id }}"><h5 class="card-title">{{note.name}}</h5></a>
           

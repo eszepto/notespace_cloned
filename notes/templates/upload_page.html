@@ -40,7 +40,8 @@
     </div>
 
     <div class="container-fluid">
-        <form action="/upload" method="POST" >
+        <form action="/uploadapi" method="POST" >
+            {% csrf_token %}
             <div class="row justify-content-end">
                 <div class="col-md-2"> <!-- Publish Button -->
                     <button type="submit" class="btn btn-primary mb-2" id="btnPublish">Publish</button>
@@ -48,12 +49,13 @@
             </div>
             <div class="row">
                 <div class="col-md-4"> <!-- Upload Pictures Column -->
-                    <form id="form_img">
+                    <div id="form_img">
                         <img id="img_id" src="" class="0"style="max-width:300px;max-height: 300px;" />
                         <br class="0"/>
                         <input id="file_input" class="0" type='file' onchange="upload_img(this);" />
                         <br class="0"/>
-                    </form>
+
+                    </div>
                     
                     <script type="text/javascript">
                         var i = 0;
@@ -71,18 +73,18 @@
                                     $('#img_id').attr('id', "")
                                     
                                     i+=1;
-                                   
-                                    // $('#form_img').append(`<img id="img_id" src=""  class="${i}" style="max-width:300px;max-height: 300px;" >`)
-                                    // $('#form_img').append(`<br  class="${i}"/>`)
-                                    // $('#form_img').append(`<input id="file_input"  class="${i}"  type="file" onchange="upload_img(this);" />`)
-                                    
+                                    $('#form_img').append(`<img id="img_id" src=""  class="${i}" style="max-width:300px;max-height: 300px;" >`)
+                                    $('#form_img').append(`<br  class="${i}"/>`)
+                                    $('#form_img').append(`<input id="file_input"  class="${i}"  type="file" onchange="upload_img(this);" />`)
+                                    console.log(1)
                                 }
-                
+
                                 reader.readAsDataURL(input.files[0]);
                             }
                         }
                         function delete_img(button) {
                             $(`.${button.className}`).remove();
+                            $('#form_img').append("<p>a</p>")
                         }
                         
                     </script>
