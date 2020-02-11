@@ -1,6 +1,8 @@
 
 var i = 0;
+var k = 0;
 function upload_img_multiple(input){
+    
     let len = input.files.length
     for(let j=0; j<len; j++)
     {
@@ -10,18 +12,21 @@ function upload_img_multiple(input){
                                     <br class="${i}"/>`)
             $('#img_id').attr('src', e.target.result);
             $('#img_id').attr('id', "")
-            $('#file_input').hide()
-            $('#file_input').attr('id',"")
+            
+            
+
             i+=1;
 
             $('#form_img').append(`<img id="img_id" src=""  class="${i}" style="max-width:300px;max-height: 300px;" > `)
             $('#form_img').append(`<br  class="${i}"/> `)
-            $('#form_img').append(`<input id="file_input" type="file" class="${i}"  onchange="upload_img_multiple(this)" multiple> `)
         
         }
 
         reader.readAsDataURL(input.files[j]);
     }
+    k += 1
+    $('#file_input').attr('id',"")
+    $('#file_field').append(`<input id="file_input" type="file" style="display: none;" onchange="upload_img_multiple(this)" name="${k}" multiple>`)
 }
 
 function delete_img(button) {

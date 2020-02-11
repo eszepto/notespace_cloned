@@ -26,13 +26,12 @@ class NewVisitorTest(LiveServerTestCase):
         self.browser.quit()
 
     def wait_for_page_update(self):
-        time.sleep(1)
+        time.sleep(2)
         MAX_WAIT = 16
         start_time = time.time()
         while True:  
             try:
                 header = self.browser.find_element_by_tag_name('html')
-                
                 return  True
             except (AssertionError, WebDriverException) as e:  
                 if time.time() - start_time > MAX_WAIT:  
@@ -52,19 +51,9 @@ class NewVisitorTest(LiveServerTestCase):
         button = self.browser.find_element_by_tag_name('body')
         inputbox = button.find_elements_by_tag_name('input')
         self.assertEqual(inputbox.get_attribute('value'), 'Search')
-    # # She types “computer” into a text box (Tina's program is Sci-Math-Com).
-    # # When she hits the enter, the page refreshs and the lectures about computer appear.
-        inputbox.send_keys('computer')
-        inputbox.click() 
-    # # She chooses one of many lectures to find out.
-    # # She clicks on the thumbnail, the page update then the lecture appears​.
     
-    # # She notices the lecture name, owner name, description, arrow buttons and logo button.
-    # # When she clicks on arrow button, then the next page of lecture appear​.
-    #         inputbox.send_keys(next)
-    # # She reads all the page after that she clicks on homepage button.
-    # # Suddenly the page redirect to the homepage. 
-    # # Satisfied, Tina goes back to sleep.
+   
+  
 
     def test_user_can_search(self):
         self.browser.get(self.live_server_url)
@@ -82,18 +71,28 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertIn("django", [item.text for item in search_results])
         self.assertIn("djang", [item.text for item in search_results])
         self.assertIn("writing unit test", [item.text for item in search_results])
-        
-
+    
+    # # She chooses one of many lectures to find out.
+    # # She clicks on the thumbnail, the page update then the lecture appears​.
+    
+    # # She notices the lecture name, owner name, description, arrow buttons and logo button.
+    
+    # # When she clicks on arrow button, then the next page of lecture appear​.
+    
+    # # She reads all the page after that she clicks on homepage button.
+    # # Suddenly the page redirect to the homepage. 
 
 
     def test_user_can_upload(self):
     # She notices the page title ,upload button and also many lecture thumbnails.
     # She is invited to click on upload button.
         self.browser.get(self.live_server_url)
-        upload_btn = self.browser.find_elements_by_id('upload_btn')[0]
+        self.wait_for_page_update()
+
+        upload_btn = self.browser.find_element_by_id("upload_btn")
         self.assertTrue(upload_btn)
         
-    # She is invited to click on upload button.
+    # She click on upload button.
         upload_btn.send_keys(Keys.ENTER)
         self.wait_for_page_update()
     # It's bring her to upload lecture page.
@@ -102,7 +101,12 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertTrue(button_publish)
 
     # There is button for uploading the pictures of lecture. 
+        file_input_button = self.browser.find_element_by_id("file_input")
+        file_input_button.send_keys("C:\\Users\\B\\OneDrive\\Documents\\231B23AC-F1DB-4A2B-A922-29CC47749436.jpg")
+        
+        
     # She clicks and upload them.
+        
 
     # There is the box for lecture name ,subject, description and owner name​.
         lectureNameTextBox = self.browser.find_element_by_id('LectureName')
@@ -113,11 +117,8 @@ class NewVisitorTest(LiveServerTestCase):
     # She fills the name and details into the box and set owner name as Tina.
       
         lectureNameTextBox.send_keys('Form interaction')
-        
         subjectTextBox.send_keys('Django Basic')
-   
         descriptionTextArea.send_keys('made with love and care')
-  
         writerNameTextBox.send_keys('Tina')
     # She click on publish button
         button_publish.send_keys(Keys.ENTER)

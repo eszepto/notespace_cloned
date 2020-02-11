@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$',views.home_page, name="home_page"),
     url(r'^upload/',views.upload_page, name='upload_page'),
-    url(r'^api/upload/', views.uploadapi, name='api_upload'),
+    url(r'^api/upload/', views.upload_api, name='api_upload'),
     url(r'^notes/',include('notes.urls')),
     url(r'^search/$', views.search, name="search"),
     

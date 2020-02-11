@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +11,8 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <title>Upload the Lecture note</title>
-    <link rel="icon" href="../../media/NoteSpace_Logo.png">
+    <link rel="icon" href="{% static '/logo/NoteSpace_Logo.png' %}" >
+    <link rel="stylesheet" type="text/css" href="{% static '/css/upload_page.css'%}">
 </head>
 
 <body>
@@ -18,7 +21,7 @@
         <div class="my-0 mr-md-auto font-weight-large ";>
             <h5>
                 <a href="{% url 'home_page'%}" style="text-decoration: none">
-                    <img border="0" alt="NoteSpace" src="../../media/NoteSpace_Logo-Name.png" height="50px">
+                    <img border="0" alt="NoteSpace" src="{% static '/logo/NoteSpace_Logo-Name.png' %}" height="50px">
                 </a>
             </h5>
 
@@ -50,16 +53,12 @@
                         <br class="0"/>
                     </div>
                         
-                    <form class="md-form" action="#">
-                            <div class="file-field">
-                                    
-                            <input id="file_input" class="btn btn-primary btn-sm float-left" type="file" onchange="upload_img_multiple(this)" multiple >   
-                            <label class="btn btn-default">
-                                Browse <input type="file" hidden>
-                            </label>
+                    <div class="md-form" action="#">
+                            <div id="file_field" class="file-field">
+                                <input id="file_input" type="file" style="display: none;" onchange="upload_img_multiple(this)" name="0" multiple>   
+                                <input id="file_input_btn" type="button" class="btn btn-primary btn-sm float-left" value="Browse..." onclick="document.getElementById('file_input').click();" />
                             </div>
-                    </form>
-                    
+                    </div>
                     
                 </div>
                 <div class="col-md-7"> <!-- Info Column -->
@@ -88,9 +87,9 @@
     </div>
 
 
-    {% load static %}
+    
     <script type="text/javascript" src="{% static "/js/upload_page.js" %}"></script>
-
+    
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>

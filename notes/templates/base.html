@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <title>NoteSpace</title>
-    <link rel="icon" href="../../media/NoteSpace_Logo.png">
+    <link rel="icon" href="{% static '/logo/NoteSpace_Logo.png' %}">
 </head>
 <body>
 
@@ -18,7 +19,7 @@
         <div class="my-0 mr-md-auto font-weight-large ";>
             <h5>
                 <a href="{% url 'home_page'%}" style="text-decoration: none">
-                    <img border="0" alt="NoteSpace" src="../../media/NoteSpace_Logo-Name.png" height="50px">
+                    <img border="0" alt="NoteSpace" src="{% static '/logo/NoteSpace_Logo-Name.png' %}" height="50px">
                 </a>
             </h5>
 
