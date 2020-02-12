@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from .models import Image,Note
 # Create your views here.
 def home_page(request):
@@ -8,7 +9,22 @@ def home_page(request):
 def upload_page(request):
     return render(request,'upload_page.html')
 def upload_api(request):
-    return HttpResponse(str(request.FILES.getlist('0')))
+    if request.POST:
+        newnote = Note()
+        newnote.name = request.POST['name']
+        newnote.desc = request.POST['desc']
+        newnote.save()
+
+        for i, file in enumerate(request.FILES.getlist('myfile')):
+            newimg = Image()
+            newimg.image = file
+            newimg.index = i
+            newimg.note = newnote
+            newimg.save()
+        
+
+        return HttpResponseRedirect('/')
+    return HttpResponse(request.POST['name'])
 
 def detial(request,note_index):
     n = get_object_or_404(Note, pk=note_index)

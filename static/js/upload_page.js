@@ -26,7 +26,7 @@ function upload_img_multiple(input){
     }
     k += 1
     $('#file_input').attr('id',"")
-    $('#file_field').append(`<input id="file_input" type="file" style="display: none;" onchange="upload_img_multiple(this)" name="${k}" multiple>`)
+    //$('#file_field').append(`<input id="file_input" type="file" style="display: none;" onchange="upload_img_multiple(this)" name="${k}" multiple>`)
 }
 
 function delete_img(button) {

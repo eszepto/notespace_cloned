@@ -20,13 +20,13 @@ class NewVisitorTest(LiveServerTestCase):
         note3.desc = "for django"
         note3.save()
 
-        self.browser = webdriver.Firefox()
+        self.browser = webdriver.Edge()
     def tearDown(self):
         pass
         self.browser.quit()
 
     def wait_for_page_update(self):
-        time.sleep(2)
+        time.sleep(1)
         MAX_WAIT = 16
         start_time = time.time()
         while True:  
@@ -102,12 +102,13 @@ class NewVisitorTest(LiveServerTestCase):
 
     # There is button for uploading the pictures of lecture. 
         file_input_button = self.browser.find_element_by_id("file_input")
-        file_input_button.send_keys("C:\\Users\\B\\OneDrive\\Documents\\231B23AC-F1DB-4A2B-A922-29CC47749436.jpg")
-        
-        
+       
     # She clicks and upload them.
+        self.browser.execute_script("arguments[0].style.display = 'block';", file_input_button)
         
-
+        file_input_button.send_keys("C:/Users/B/OneDrive/Documents/231B23AC-F1DB-4A2B-A922-29CC47749436.jpg")
+        file_input_button.send_keys("C:/Users/B/OneDrive/Documents/61FC8C1A-D1FE-4D09-ABE4-BE1689D03C8E.jpg")
+        
     # There is the box for lecture name ,subject, description and owner name​.
         lectureNameTextBox = self.browser.find_element_by_id('LectureName')
         subjectTextBox = self.browser.find_element_by_id('Subject')
@@ -122,13 +123,13 @@ class NewVisitorTest(LiveServerTestCase):
         writerNameTextBox.send_keys('Tina')
     # She click on publish button
         button_publish.send_keys(Keys.ENTER)
-        self.wait_for_page_update()
+        
     # the page refresh then she see her lecture on the homepage.
-        self.browser.get(self.live_server_url)
+        self.wait_for_page_update()
         main = self.browser.find_element_by_id('main')
         self.assertIn('Form interaction',
         [link.text for link in main.find_elements_by_tag_name('a')])
-
+        self.fail("test_user_can_upload OK!")
 
 
     # # She chooses one of many lectures to find out.
@@ -139,7 +140,7 @@ class NewVisitorTest(LiveServerTestCase):
     # # Suddenly the page redirect to the homepage. 
     # # Satisfied, Tina goes back to sleep.
       
-        self.browser.quit()
+      
 
 
 
