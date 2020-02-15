@@ -84,7 +84,7 @@ img {vertical-align: middle;}
 </div>
 <div style="text-align:center">
     {% for i in images_url %}
-       <span class="dot" onclick="currentSlide({{forloop.counter}})"></span> 
+       <span class="dot" onclick="currentSlide({{ forloop.counter }})"></span> 
     {% endfor%}
 </div>
     {% if note.desc %}
