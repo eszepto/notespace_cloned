@@ -22,6 +22,7 @@ class Tag(models.Model):
 class Note(models.Model):
     id = models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
     name = models.CharField(max_length=200)
+    owner = models.CharField(max_length=30)
     desc = models.CharField(default='',max_length=1000)
     upload_time = models.DateTimeField('upload_time', null=True, default=datetime.datetime.now)
     tag =  models.ManyToManyField(Tag,related_name='notes')

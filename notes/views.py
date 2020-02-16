@@ -3,28 +3,39 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from .models import Image,Note
 # Create your views here.
+def ClearStrSpace(input):
+    return " ".join(input.split())
+
 def home_page(request):
     notes = Note.objects.order_by('-upload_time')
     return render(request,'home_page.html',{'notes':notes})
 def upload_page(request):
     return render(request,'upload_page.html')
 def upload_api(request):
+    filetype_list = ["img", "png", "jpg", "jpeg", "tiff", "gif", "bmp"]
     if request.POST:
         newnote = Note()
-        newnote.name = request.POST['name']
-        newnote.desc = request.POST['desc']
+        newnote.name  =  ClearStrSpace(request.POST['name'])
+        newnote.owner =  ClearStrSpace(request.POST['guestname'])
+        newnote.desc  =  ClearStrSpace(request.POST['desc'])
         newnote.save()
 
-        for i, file in enumerate(request.FILES.getlist('myfile')):
-            newimg = Image()
-            newimg.image = file
-            newimg.index = i
-            newimg.note = newnote
-            newimg.save()
+        i = 0
+        for file in request.FILES.getlist('myfile'):
+            if(len(file.name.split(".")) > 1 and
+                    file.name.split(".")[-1] in filetype_list):
+                newimg = Image()
+                newimg.image = file
+                newimg.index = i
+                newimg.note = newnote
+                newimg.save()
+                i += 1
+        if(i==0): #all file is invalid
+            newnote.delete()
+            return HttpResponse("File Type Error")
         
-
         return HttpResponseRedirect('/')
-    return HttpResponse(request.POST['name'])
+    return HttpResponseRedirect('/')
 
 def detial(request,note_index):
     n = get_object_or_404(Note, pk=note_index)
