@@ -12,6 +12,11 @@ class NewVisitorTest(LiveServerTestCase):
         welcomeNote.desc = "Introduction and Quick guide"
         welcomeNote.save()
 
+        testNote = Note()
+        testNote.name = "Basic Economics"
+        testNote.subject = "Economics"
+        testNote.desc = "This note is about demands, suplies and how market work."
+        testNote.save()
         # self.browser = webdriver.Edge()
         self.browser = webdriver.Firefox()
     def tearDown(self):
