@@ -7,20 +7,13 @@ from selenium.common.exceptions import WebDriverException
 from notes.models import Note,Image
 class NewVisitorTest(LiveServerTestCase):
     def setUp(self):
-        note1 = Note()
-        note1.name = "django"
-        note1.save()
+        welcomeNote = Note()
+        welcomeNote.name = "Welcome to Note Space!"
+        welcomeNote.desc = "Introduction and Quick guide"
+        welcomeNote.save()
 
-        note2 = Note()
-        note2.name = "djang"
-        note2.save()
-
-        note3 = Note()
-        note3.name = "writing unit test"
-        note3.desc = "for django"
-        note3.save()
-
-        self.browser = webdriver.Edge()
+        # self.browser = webdriver.Edge()
+        self.browser = webdriver.Firefox()
     def tearDown(self):
         pass
         self.browser.quit()
@@ -69,8 +62,9 @@ class NewVisitorTest(LiveServerTestCase):
 
 
     def test_user_can_view_the_note(self):
+        pass
     # She clicks on the thumbnail, the page update then the lecture appears​.
-    
+        
     # She notices the lecture note name, owner name, and description.
 
     # She found left-right arrow buttons, note image between that and dots in the bottom.
