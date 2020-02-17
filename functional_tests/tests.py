@@ -43,14 +43,12 @@ class NewVisitorTest(LiveServerTestCase):
         self.browser.get(self.live_server_url)
     # She notices the page title is "Note Space"
         self.assertIn('NoteSpace', self.browser.title)
-    # and then she notices a search field.
-        inputbox = button.find_elements_by_tag_name('input')
-        self.assertEqual(inputbox.get_attribute('value'), 'Search')
 
 
     def test_user_can_search(self):
         self.browser.get(self.live_server_url)
         self.wait_for_page_update()
+    # and then she notices a search field.
         inputbox = self.browser.find_element_by_tag_name('input')
         self.assertEqual(inputbox.get_attribute('placeholder'), 'Search')
     # She types the keyword "Economics" into a text box 
@@ -61,10 +59,10 @@ class NewVisitorTest(LiveServerTestCase):
         search_results = self.browser.find_elements_by_tag_name("a")
         webpage = self.browser.find_element_by_tag_name("body")
         self.assertIn("searching for 'Economics'", webpage.text)
-        self.assertIn("Economics", [item.text for item in search_results])
     # She notices the filter bar and filters the newest.
+    
     # She chooses the most relative note.
-
+        self.assertIn("Basic Economics", [item.text for item in search_results])
 
     def test_user_can_view_the_note(self):
         pass
