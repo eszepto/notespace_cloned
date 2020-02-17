@@ -69,7 +69,7 @@ class NewVisitorTest(LiveServerTestCase):
     def test_user_can_view_the_note(self):
         pass
     # She clicks on the thumbnail, the page update then the lecture appears​.
-        
+    
     # She notices the lecture note name, owner name, and description.
 
     # She found left-right arrow buttons, note image between that and dots in the bottom.
@@ -109,8 +109,9 @@ class NewVisitorTest(LiveServerTestCase):
         writerNameTextBox = self.browser.find_element_by_id('WriterName')
     # She clicks browse button and upload her note.
         self.browser.execute_script("arguments[0].style.display = 'block';", file_input_button)
-        file_input_button.send_keys("C:/Users/B/OneDrive/Documents/231B23AC-F1DB-4A2B-A922-29CC47749436.jpg")
-        file_input_button.send_keys("C:/Users/B/OneDrive/Documents/61FC8C1A-D1FE-4D09-ABE4-BE1689D03C8E.jpg")
+        file_input_button.send_keys("../static/TestNotes/Econ/IMG_0815.JPG")
+        file_input_button.send_keys("../static/TestNotes/Econ/IMG_0816.JPG")
+        file_input_button.send_keys("../static/TestNotes/Econ/IMG_0817.JPG")
     # She fills the name and details into the box and sets the owner's name as Tina.
         lectureNameTextBox.send_keys('Elementary Logic')
         subjectTextBox.send_keys('Mathematics')
