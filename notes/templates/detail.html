@@ -1,123 +1,150 @@
 {% extends 'base.html' %}
 {% block context %}
-    <style>
-        * {box-sizing: border-box}
-body {font-family: Verdana, sans-serif; margin:0}
-.mySlides {display: none}
-img {vertical-align: middle;}
+<style>
+  * {
+    box-sizing: border-box
+  }
 
-/* Slideshow container */
-.slideshow-container {
-  text-align: center;
-}
+  body {
+    font-family: Verdana, sans-serif;
+    margin: 0
+  }
 
-.center-fit {
-  max-width: 100%;
-  max-height: 100vh;
-  margin: auto;
-}
-/* Next & previous buttons */
-.prev {
-  left: 20%;
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  width: auto;
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
-  transition: 0.6s ease;
-}
+  .mySlides {
+    display: none
+  }
 
-/* Position the "next button" to the right */
-.next {
-  right: 20%;
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  width: auto;
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
-  transition: 0.6s ease;
+  img {
+    vertical-align: middle;
+  }
 
-}
+  /* Slideshow container */
+  .slideshow-container {
+    text-align: center;
+  }
 
-.date {
-  font-size: 80%;
-  color: blue;
-  text-decoration: none;
-}
+  .center-fit {
+    max-width: 100%;
+    max-height: 100vh;
+    margin: auto;
+  }
 
-/* The dots/bullets/indicators */
-.dot {
-  cursor: pointer;
-  height: 15px;
-  width: 15px;
-  margin: 0 2px;
-  background-color: #bbb;
-  border-radius: 50%;
-  display: inline-block;
-  transition: background-color 0.6s ease;
-}
+  /* Next & previous buttons */
+  .prev {
+    left: 20%;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+  }
 
-.active, .dot:hover {
-  background-color: #717171;
-}
-/* On smaller screens, decrease text size */
-@media only screen and (max-width: 300px) {
-  .prev, .next,.text {font-size: 11px}
-}
-    </style>
+  /* Position the "next button" to the right */
+  .next {
+    right: 20%;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
 
-<h1 style = "text-decoration: none;">{{note.name}}</h1>
-<p class = "date">Published {{note.upload_time}}</p>
-<div class="slideshow-container">
+  }
+
+  .date {
+    font-size: 10pt;
+    color: blue;
+    text-decoration: none;
+  }
+
+  .owner {
+    font-size: 10pt;
+    color: gray;
+    text-decoration: none;
+  }
+
+  /* The dots/bullets/indicators */
+  .dot {
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+  }
+
+  .active,
+  .dot:hover {
+    background-color: #717171;
+  }
+
+  /* On smaller screens, decrease text size */
+  @media only screen and (max-width: 300px) {
+
+    .prev,
+    .next,
+    .text {
+      font-size: 11px
+    }
+  }
+</style>
+<div id="note">
+  <h1 style="text-decoration: none;">{{note.name}}</h1>
+  <span class="date">Published {{note.upload_time}}</span>
+  &nbsp;
+  <span class="owner">By {{note.owner}}</span>
+  <div class="slideshow-container">
 
     {% for i in images_url %}
-        <div class="mySlides">
-        <img class="center-fit" src="{{ i }}"></a>
-        </div>
+    <div class="mySlides">
+      <img class="center-fit" src="{{ i }}"></a>
+    </div>
     {% endfor %}
-<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-<a class="next" onclick="plusSlides(1)">&#10095;</a>
-</div>
-<div style="text-align:center">
+    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+  </div>
+  <div style="text-align:center">
     {% for i in images_url %}
-       <span class="dot" onclick="currentSlide({{ forloop.counter }})"></span> 
+    <span class="dot" onclick="currentSlide({{ forloop.counter }})"></span>
     {% endfor%}
+  </div>
+  {% if note.desc %}
+  <p>{{note.desc}}</p>
+  {% endif %}
+  <script>
+    var slideIndex = 1;
+    showSlides(slideIndex);
+
+    function plusSlides(n) {
+      showSlides(slideIndex += n);
+    }
+
+    function currentSlide(n) {
+      showSlides(slideIndex = n);
+    }
+
+    function showSlides(n) {
+      var i;
+      var slides = document.getElementsByClassName("mySlides");
+      var dots = document.getElementsByClassName("dot");
+      if (n > slides.length) { slideIndex = 1 }
+      if (n < 1) { slideIndex = slides.length }
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+      }
+      slides[slideIndex - 1].style.display = "block";
+      dots[slideIndex - 1].className += " active";
+    }
+  </script>
 </div>
-    {% if note.desc %}
-        <p>{{note.desc}}</p>
-    {% endif %}
-<script>
-var slideIndex = 1;
-showSlides(slideIndex);
-
-function plusSlides(n) {
-  showSlides(slideIndex += n);
-}
-
-function currentSlide(n) {
-  showSlides(slideIndex = n);
-}
-
-function showSlides(n) {
-  var i;
-  var slides = document.getElementsByClassName("mySlides");
-  var dots = document.getElementsByClassName("dot");
-  if (n > slides.length) {slideIndex = 1}    
-  if (n < 1) {slideIndex = slides.length}
-  for (i = 0; i < slides.length; i++) {
-      slides[i].style.display = "none";  
-  }
-  for (i = 0; i < dots.length; i++) {
-      dots[i].className = dots[i].className.replace(" active", "");
-  }
-  slides[slideIndex-1].style.display = "block";  
-  dots[slideIndex-1].className += " active";
-}
-</script>
-
 {% endblock context %}
-
