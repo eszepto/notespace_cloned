@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
@@ -47,11 +48,16 @@ def detial(request,note_index):
 
 def search(request):
     query_word = request.GET.get("q",'')
-    print(query_word)
-    searched_notes = Note.objects.filter(name__icontains=query_word)
+    searched_notes = Note.objects.filter(Q(name__icontains=query_word) | 
+                                            Q(desc__icontains=query_word) |
+                                            Q(tags__title__icontains=query_word) 
+                                            ) 
    
-    print(searched_notes)
     return render(request, 'search_result.html', 
     {
         'search_key':query_word,
         'searched_notes':searched_notes })
+
+def tagQuery(request, tag):
+    query_tag = Tag.objects.
+    return render

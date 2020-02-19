@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^upload/',views.upload_page, name='upload_page'),
     url(r'^api/upload/', views.upload_api, name='api_upload'),
     url(r'^notes/',include('notes.urls')),
+    path("tag/<str:tag>", views.tagQuery, name="tagQuery"),
     url(r'^search/$', views.search, name="search"),
     
 ]

@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.test import LiveServerTestCase
 from django.shortcuts import get_object_or_404
-from .models import Note, Image
+from .models import Note, Image, Tag
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db.models import Q
 import datetime
@@ -60,20 +60,53 @@ class NoteModelTest(LiveServerTestCase):
         self.assertLess(note1.upload_time, datetime.datetime.now())
 
     def test_database_can_search_by_similar(self):
+        from django.db.models import Q
         note1 = Note()
         note1.name = "django"
         note1.save()
 
         note2 = Note()
-        note2.name = "djang"
+        note2.name = "writing unit test"
+        note2.desc = "for django"
         note2.save()
 
+
+        Tag_django = Tag()
+        Tag_django.title = "django"
+        Tag_django.save()
+
         note3 = Note()
-        note3.name = "writing unit test"
-        note3.desc = "for django"
+        note3.name = "Html Template Tags"
+        note3.save() 
+        note3.tags.add(Tag_django)
         note3.save()
 
-        search_result = Note.objects.filter(name__trigram_similar="django").filter(desc__trigram_similar="django")
+        note4 = Note()
+        note4.name = "djang"
+        note4.save()
+
+        
+
+        search_result = Note.objects.filter(Q(name__icontains="django") | 
+                                            Q(desc__icontains="django") |
+                                            Q(tags__title__icontains="django") 
+                                            ) 
+        print(search_result)
+        flag1 = flag2 = flag3 = flag4 =False
+        for note in list(search_result):
+            if note.name == "django":             # test search by name
+                flag1 = True
+            if note.name == "writing unit test":  # test search by description
+                flag2 = True
+            if note.name == "Html Template Tags": # test search by tag
+                flag3 = True
+            if note.name == "djang":              # test search by similar word
+                flag4 = True
+        
+        self.assertTrue(flag1)
+        self.assertTrue(flag2)
+        self.assertTrue(flag3)
+        self.assertTrue(flag4)
     
     
         

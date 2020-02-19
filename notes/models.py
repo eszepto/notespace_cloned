@@ -1,7 +1,9 @@
 from django.db import models
+from django.db.models import Q
 from sorl.thumbnail import ImageField, get_thumbnail
 import sorl.thumbnail
 import datetime
+
 # Create your models here.
 class Tag(models.Model):
     title = models.CharField(max_length=250)
@@ -35,6 +37,9 @@ class Note(models.Model):
             return i # remember that sorl objects have url/width/height attributes
         except:
             return "/media/loading.jpg"
+    def search(self):
+        pass
+
 
 def note_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/<>/<filename>
