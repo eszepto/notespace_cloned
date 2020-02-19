@@ -2,4 +2,24 @@
 {% block context %}
 
 
+<div id="main" class="container">
+    
+    {% for note in tag.notes.all %}
+    <div class="card" style="width: 18rem;">
+        
+        <img class="card-img-top" src="{{ note.get_thumb }}">
+        <div class="card-body">
+            <a href="/notes/{{note.id }}"><h5 class="card-title">{{note.name}}</h5></a>
+          
+          <p class="card-text" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;max-width: 300px;">{{note.desc}}</p>
+        </div>
+        
+    </div>
+    
+    <br/>    
+    {% endfor %}
+</div>
+
+
+
 {% endblock context %}

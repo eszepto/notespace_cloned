@@ -2,7 +2,7 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
-from .models import Image,Note
+from .models import Note, Image, Tag
 # Create your views here.
 def ClearStrSpace(input):
     return " ".join(input.split())
@@ -58,6 +58,6 @@ def search(request):
         'search_key':query_word,
         'searched_notes':searched_notes })
 
-def tagQuery(request, tag):
-    query_tag = Tag.objects.
-    return render
+def tagQuery(request, tag_title):
+    query_tag = get_object_or_404(Tag , title=tag_title)
+    return render(request, 'tag_result.html',{'tag':query_tag})

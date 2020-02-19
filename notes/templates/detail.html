@@ -100,10 +100,11 @@
   <span class="date">Published {{note.upload_time}}</span>
   &nbsp;
   <span class="owner">By {{note.owner}}</span>
-  &nbsp;
+  <br/>
+  Tag:
   <span class="tags">
     {% for tag in note.tags.all %}
-        {{ tag.title }}
+        <a href="{% url 'tagQuery' tag.title %}">{{ tag.title }}</a>
     {% endfor %}
   </span>
   <div class="slideshow-container">
