@@ -25,7 +25,7 @@ class Note(models.Model):
     owner = models.CharField(max_length=30)
     desc = models.CharField(default='',max_length=1000)
     upload_time = models.DateTimeField('upload_time', null=True, default=datetime.datetime.now)
-    tag =  models.ManyToManyField(Tag,related_name='notes')
+    tags =  models.ManyToManyField(Tag,related_name='notes')
     def __str__(self):
         return self.name
     def get_thumb(self):

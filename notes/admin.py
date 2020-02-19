@@ -10,7 +10,7 @@ class NoteAdmin(admin.ModelAdmin):
     inlines = [ImageInline]
     fieldsets = [
         
-        ("", {'fields': ['tag','name','desc','upload_time','owner']})
+        ("", {'fields': ['tags','name','desc','upload_time','owner']})
         
     ]
 
