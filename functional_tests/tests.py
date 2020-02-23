@@ -75,7 +75,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertIn('By Susan', [link.text for link in note.find_elements_by_tag_name('span')])
 
 
-	left_arrow  = [link.text for link in fnc.find_elements_by_class_name('prev')]
+	left_arrow  = [link.text for link in note.find_elements_by_class_name('prev')]
         right_arrow = [link.text for link in note.find_elements_by_class_name('next')]
     # She found left-right arrow buttons, note image between that and dots in the bottom.
         self.assertIn(('IMG_0809.JPG', [link.text for link in note.find_elements_by_class_name('mySlides')]
