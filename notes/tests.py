@@ -31,13 +31,13 @@ class NoteModelTest(LiveServerTestCase):
         img1 = Image()
         img1.index = 1
         img1.note = n
-        img1.image = SimpleUploadedFile(name='1.jpg', content=open("C:/Users/B/OneDrive/Documents/68C6277C-16C8-4E21-9910-0205EFA62918.jpg", 'rb').read(), content_type='image/jpeg') 
+        img1.image = SimpleUploadedFile(name='1.jpg', content=open("C:/Users/B/OneDrive/Documents/61FC8C1A-D1FE-4D09-ABE4-BE1689D03C8E.jpg", 'rb').read(), content_type='image/jpeg') 
         img1.save()
 
         img2 = Image()
         img2.index = 2
         img2.note = n
-        img2.image = SimpleUploadedFile(name='1.jpg', content=open("C:/Users/B/OneDrive/Documents/68C6277C-16C8-4E21-9910-0205EFA62918.jpg", 'rb').read(), content_type='image/jpeg')
+        img2.image = SimpleUploadedFile(name='1.jpg', content=open("C:/Users/B/OneDrive/Documents/61FC8C1A-D1FE-4D09-ABE4-BE1689D03C8E.jpg", 'rb').read(), content_type='image/jpeg')
         img2.save()
         
 
@@ -61,52 +61,45 @@ class NoteModelTest(LiveServerTestCase):
 
     def test_database_can_search_by_similar(self):
         from django.db.models import Q
-        note1 = Note()
-        note1.name = "django"
-        note1.save()
 
-        note2 = Note()
-        note2.name = "writing unit test"
-        note2.desc = "for django"
-        note2.save()
+        note1_namesearch = Note()
+        note1_namesearch.name = "django"
+        note1_namesearch.save()
+
+        note2_descsearch = Note()
+        note2_descsearch.name = "writing unit test"
+        note2_descsearch.desc = "for django"
+        note2_descsearch.save()
 
 
         Tag_django = Tag()
         Tag_django.title = "django"
         Tag_django.save()
 
-        note3 = Note()
-        note3.name = "Html Template Tags"
-        note3.save() 
-        note3.tags.add(Tag_django)
-        note3.save()
+        note3_tagsearch = Note()
+        note3_tagsearch.name = "Html Template Tags"
+        note3_tagsearch.save() 
+        note3_tagsearch.tags.add(Tag_django)
+        note3_tagsearch.save()
 
-        note4 = Note()
-        note4.name = "djang"
-        note4.save()
+        note4_ownersearch = Note()
+        note4_ownersearch.name = "FAQ"
+        note4_ownersearch.owner = "Django official"
+        note4_ownersearch.save()
 
-        
-
-        search_result = Note.objects.filter(Q(name__icontains="django") | 
+        search_result = list(Note.objects.filter(Q(name__icontains="django") | 
                                             Q(desc__icontains="django") |
-                                            Q(tags__title__icontains="django") 
-                                            ) 
+                                            Q(tags__title__icontains="django") |
+                                            Q(owner__icontains="django")
+                                            ) )
         print(search_result)
-        flag1 = flag2 = flag3 = flag4 =False
-        for note in list(search_result):
-            if note.name == "django":             # test search by name
-                flag1 = True
-            if note.name == "writing unit test":  # test search by description
-                flag2 = True
-            if note.name == "Html Template Tags": # test search by tag
-                flag3 = True
-            if note.name == "djang":              # test search by similar word
-                flag4 = True
         
-        self.assertTrue(flag1)
-        self.assertTrue(flag2)
-        self.assertTrue(flag3)
-        self.assertTrue(flag4)
-    
+        self.assertGreaterEqual(len(search_result), 4)
+
+        self.assertIn(note1_namesearch, search_result)
+        self.assertIn(note2_descsearch, search_result )
+        self.assertIn(note3_tagsearch,  search_result)
+        self.assertIn(note4_ownersearch, search_result)
+
     
         
