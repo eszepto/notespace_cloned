@@ -74,34 +74,34 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertIn(('Published %s',publishTime), [link.text for link in note.find_elements_by_tag_name('span')])
         self.assertIn('By Susan', [link.text for link in note.find_elements_by_tag_name('span')])
 
-
-	left_arrow  = self.browser.find_elements_by_class_name('prev')
+        left_arrow  = self.browser.find_elements_by_class_name('prev')
         right_arrow = self.browser.find_elements_by_class_name('next')
+        dots        = self.browser.find_elements_by_class_name('dot')
     # She found left-right arrow buttons, note image between that and dots in the bottom.
-        self.assertIn(('IMG_0809.JPG', [link.text for link in note.find_elements_by_class_name('mySlides')]
+        self.assertIn('IMG_0809.JPG', [link.text for link in note.find_elements_by_class_name('mySlides')])
         self.assertIn('prev' , left_arrow)
         self.assertIn('next' , right_arrow)
-        self.assertIn('dot' , self.browser.find_elements_by_class_name('dot')
-    # When she clicks on the right arrow button, then the next page of the lecture appears​.
+        self.assertIn('dot' , dots)
+    # When she clicks on the right arrow button, then the next page of the lecture appears.
         time.sleep(1)
         right_arrow.click()
-        self.assertIn(('IMG_0810.JPG', [link.text for link in note.find_elements_by_class_name('mySlides')]
+        self.assertIn('IMG_0810.JPG', [link.text for link in note.find_elements_by_class_name('mySlides')])
     # And she clicks on the left arrow button, then the previous page appears.
         time.sleep(1)
         self.assertIn('prev' , left_arrow)
-        self.assertIn(('IMG_0809.JPG', [link.text for link in note.find_elements_by_class_name('mySlides')]
+        self.assertIn('IMG_0809.JPG', [link.text for link in note.find_elements_by_class_name('mySlides')])
     # She reads all the pages after that she found that the logo is clickable.
         time.sleep(1)
         right_arrow.click()
-        self.assertIn(('IMG_0810.JPG', [link.text for link in note.find_elements_by_class_name('mySlides')]
+        self.assertIn('IMG_0810.JPG', [link.text for link in note.find_elements_by_class_name('mySlides')])
         time.sleep(1)
         right_arrow.click()
-        self.assertIn(('IMG_0811.JPG', [link.text for link in note.find_elements_by_class_name('mySlides')]
+        self.assertIn('IMG_0811.JPG', [link.text for link in note.find_elements_by_class_name('mySlides')])
         time.sleep(1)
         right_arrow.click()
-        self.assertIn(('IMG_0812.JPG', [link.text for link in note.find_elements_by_class_name('mySlides')]
+        self.assertIn('IMG_0812.JPG', [link.text for link in note.find_elements_by_class_name('mySlides')])
 
-        self.assertIn(('NoteSpace_Logo-Name.png', self.browser.find_element_by_tag_name('img')]
+        self.assertIn('NoteSpace_Logo-Name.png', self.browser.find_element_by_tag_name('img'))
         logo = self.browser.find_element_by_link_text('/')
     # She clicks on it and The page suddenly redirects to the homepage.
         self.assertEqual(logo_link.get_attribute('href'), 'http://localhost:8000')
@@ -162,12 +162,12 @@ class NewVisitorTest(LiveServerTestCase):
     # and click on the arrow button to check that the order is correct.
         time.sleep(1)
         right_arrow.click()
-        self.assertIn(('IMG_0815.JPG', [link.text for link in note.find_elements_by_class_name('mySlides')]
+        self.assertIn('IMG_0815.JPG', [link.text for link in note.find_elements_by_class_name('mySlides')])
         time.sleep(1)
         right_arrow.click()
-        self.assertIn(('IMG_0816.JPG', [link.text for link in note.find_elements_by_class_name('mySlides')]
+        self.assertIn('IMG_0816.JPG', [link.text for link in note.find_elements_by_class_name('mySlides')])
         time.sleep(1)
         right_arrow.click()
-        self.assertIn(('IMG_0817.JPG', [link.text for link in note.find_elements_by_class_name('mySlides')]
+        self.assertIn('IMG_0817.JPG', [link.text for link in note.find_elements_by_class_name('mySlides')])
 
     # She proud of herself and close the browser.
