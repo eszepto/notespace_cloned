@@ -4,6 +4,8 @@ from sorl.thumbnail import ImageField, get_thumbnail
 import sorl.thumbnail
 import datetime
 
+from notes.field import RatingField
+
 # Create your models here.
 class Tag(models.Model):
     title = models.CharField(max_length=250)
@@ -46,12 +48,18 @@ def note_directory_path(instance, filename):
     return '{0}/{1}'.format(instance.note.id, filename)
 class Image(models.Model):
     index = models.IntegerField()
-    note = models.ForeignKey(Note, on_delete=models.CASCADE)
+    note = models.ForeignKey(Note, on_delete=models.CASCADE, related_name="images")
     image = ImageField(upload_to=note_directory_path)
     def get_thumb(self):
         im = get_thumbnail(self.image, '500x500', crop='center', quality=99)
         return im.url # remember that sorl objects have url/width/height attributes
-        
+
+class Review(models.Model):
+    note = models.ForeignKey(Note, on_delete=models.CASCADE, related_name="reviews")
+    author = models.CharField(max_length=30)
+    datetime = models.DateTimeField("reviewed_time", null=True, default=datetime.datetime.now)
+    score = models.FloatField()
+    text = models.TextField(max_length=1000)
 
     
 
