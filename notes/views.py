@@ -2,7 +2,7 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
-from .models import Note, Image, Tag
+from .models import Note, Image, Tag, Review
 # Create your views here.
 def ClearStrSpace(input):
     return " ".join(input.split())
@@ -41,9 +41,7 @@ def upload_api(request):
 def detial(request,note_index):
     n = get_object_or_404(Note, pk=note_index)
     images = Image.objects.filter(note=n)
-    img_url = []
-    for i in images:
-        img_url.append(i.image.url)
+    img_url = [i.image.url for i in images]
     return render(request,'detail.html',{'images_url':img_url,'note':n})
 
 def search(request):
@@ -61,3 +59,20 @@ def search(request):
 def tagQuery(request, tag_title):
     query_tag = get_object_or_404(Tag , title=tag_title)
     return render(request, 'tag_result.html',{'tag':query_tag})
+
+def addcomment_api(request):
+    note_id = request.POST['note_id']
+    n = Note.objects.get(id=note_id)
+
+    author = request.POST['author']
+    text = request.POST['text']
+    score = float(request.POST['score']) if request.POST['score'] in ["1","2","3","4","5"] else 0
+
+    review = Review()
+    review.note = n
+    review.author = author
+    review.text = text
+    review.score = score
+
+    review.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

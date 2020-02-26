@@ -30,6 +30,8 @@ class Note(models.Model):
     desc = models.CharField(default='',max_length=1000)
     upload_time = models.DateTimeField('upload_time', null=True, default=datetime.datetime.now)
     tags =  models.ManyToManyField(Tag,related_name='notes')
+    mean_score = models.FloatField(default=0)
+    review_count = models.IntegerField(default=0)
     def __str__(self):
         return self.name
     def get_thumb(self):
@@ -39,8 +41,6 @@ class Note(models.Model):
             return i # remember that sorl objects have url/width/height attributes
         except:
             return "/media/loading.jpg"
-    def search(self):
-        pass
 
 
 def note_directory_path(instance, filename):
@@ -58,8 +58,16 @@ class Review(models.Model):
     note = models.ForeignKey(Note, on_delete=models.CASCADE, related_name="reviews")
     author = models.CharField(max_length=30)
     datetime = models.DateTimeField("reviewed_time", null=True, default=datetime.datetime.now)
-    score = models.FloatField()
+    score = models.FloatField(default=0)
     text = models.TextField(max_length=1000)
+
+    def save(self, *args, **kwargs):
+        if(self.score != 0):
+            self.note.mean_score = ((self.note.mean_score * self.note.review_count) + self.score )/\
+                                   (self.note.review_count + 1)
+            self.note.review_count += 1
+            self.note.save()
+        super(Review,self).save(*args, **kwargs)
 
     
 

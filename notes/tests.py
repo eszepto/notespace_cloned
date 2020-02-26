@@ -1,10 +1,12 @@
 from django.test import TestCase
 from django.test import LiveServerTestCase
 from django.shortcuts import get_object_or_404
-from .models import Note, Image, Tag
+from notes.models import Note, Image, Tag, Review
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db.models import Q
 import datetime
+import time
+
 # Create your tests here.
 class Unittest(TestCase):
     def test_can_resolve_url_to_note_url(self):
@@ -56,7 +58,7 @@ class NoteModelTest(LiveServerTestCase):
     def test_database_automatically_add_upload_time(self):
         note1 = Note()
         note1.save()
-        print(note1.upload_time)
+        time.sleep(1)
         self.assertLess(note1.upload_time, datetime.datetime.now())
 
     def test_database_can_search_by_similar(self):
@@ -101,5 +103,39 @@ class NoteModelTest(LiveServerTestCase):
         self.assertIn(note3_tagsearch,  search_result)
         self.assertIn(note4_ownersearch, search_result)
 
+        search_result = Note.objects.filter(name__trigram_similar="django").filter(desc__trigram_similar="django")
     
-        
+    def test_can_get_review_mean_score(self):
+        n = Note()
+        n.save()
+
+        review1 = Review()
+        review1.note = n
+        review1.score = 5
+        review1.save()
+
+        review2 = Review()
+        review2.note = n
+        review2.score = 4
+        review2.save()
+
+        self.assertEqual(round(n.mean_score, ndigits=2), 4.5)
+
+    def test_can_store_and_get_review(self):
+        n = Note()
+        n.save()
+
+        review1 = Review()
+        review1.note = n
+        review1.author = "Author 1"
+        review1.score = 5
+        review1.text = "very good"
+        review1.save()
+
+        self.assertEqual(n.reviews.all().count(), 1)
+        self.assertIn(review1, n.reviews.all())
+
+        self.assertEqual(n.reviews.all()[0], review1)
+        self.assertEqual(n.reviews.all()[0].text, "very good")
+
+

@@ -125,6 +125,9 @@
   {% if note.desc %}
   <p>{{note.desc}}</p>
   {% endif %}
+
+
+
   <script>
     var slideIndex = 1;
     showSlides(slideIndex);
@@ -154,4 +157,42 @@
     }
   </script>
 </div>
+<div id="reviews">
+    <h3>Reviews</h3>
+    {% for review in note.reviews.all %}
+      {% if review.author %}
+        <p>{{review.author}}</p>
+      {% else %}
+        <p>anonymous</p>
+      {% endif %}
+      <p>score:{{review.score}}</p>
+      <p>{{ review.text }}</p>
+      <br>
+    {% endfor %}
+  </div>
+  <p>---------------------------------------------------------------------</p>
+  <div id="new_review">
+    <form action="{% url 'addcomment_api'%}" method="post" id="addcomment_form">
+      {% csrf_token %}
+      <input name="note_id" value="{{note.id}}" hidden>
+
+      <input type="radio" id="star5" name="score" value="5" >
+      <label for="star5">5</label>
+      <input type="radio" id="star4" name="score" value="4">
+      <label for="star4">4</label>
+      <input type="radio" id="star3" name="score" value="3">
+      <label for="star3">3</label>
+      <input type="radio" id="star2" name="score" value="2">
+      <label for="star2">2</label>
+      <input type="radio" id="star1" name="score" value="1">
+      <label for="star1">1</label>
+      <br>
+      <label for="author_name">Author:</label>
+      <input type="text" id="author_name" name="author"><br><br>
+      <label for="text">Text:</label>
+      <textarea form="addcomment_form" id="text" rows="4" cols="50" name="text"></textarea><br><br>
+      <input type="submit">
+    </form>
+  </div>
+
 {% endblock context %}
