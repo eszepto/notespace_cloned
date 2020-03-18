@@ -13,7 +13,7 @@ def home_page(request):
 def upload_page(request):
     return render(request,'upload_page.html')
 def upload_api(request):
-    filetype_list = ["img", "png", "jpg", "jpeg", "tiff", "gif", "bmp"]
+    filetype_list = ["img", "png", "jpg" ,"jpeg", "tiff", "gif", "bmp"]
     if request.POST:
         newnote = Note()
         newnote.name  =  ClearStrSpace(request.POST['name'])
@@ -24,7 +24,7 @@ def upload_api(request):
         i = 0
         for file in request.FILES.getlist('myfile'):
             if(len(file.name.split(".")) > 1 and
-                    file.name.split(".")[-1] in filetype_list):
+                    file.name.split(".")[-1].lower() in filetype_list):
                 newimg = Image()
                 newimg.image = file
                 newimg.index = i
