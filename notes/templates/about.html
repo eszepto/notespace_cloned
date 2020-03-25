@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block context %}
 
 <style>
@@ -11,20 +12,74 @@
     }
 </style>
 
-    <div class="align-items-center" style="height: 300px; position:relative; text-align: center;top: 300px;">
+    <div class="align-items-center" style="height: 300px; position:relative; text-align: center;top: 160px;">
         <div>
             <blockquote class="blockquote text-center mb-0"style="text-align: center;">
                 <h4 class="mb-0">"NoteSpace is a non-profit website for sharing lecture note"</h4>
             </blockquote>
         <div>
-        <div></div>
         
+        
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <h4>Developers</h4>
+            </div>
+            <div class="col-md-3"></div>
+
+        </div>
+        <br>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card" style="width: 220px;">
+                    <img class="card-img-top border" src="{% static 'man.png'%}" height="200px" ></img>
+                    <div class="card-body">
+                        <h5 class="card-title">พิเชฐ พุ่มพฤกษ์</h5>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card" style="width: 230px;">
+                    <img class="card-img-top border" src="{% static 'man.png'%}" height="200px"></img>
+                    <div class="card-body">
+                        <h5 class="card-title">ปุณณดา ชัยจำเนียรกุล</h5>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card" style="width: 220px;">
+                    <img class="card-img-top border" src="{% static 'man.png'%}" height="200px"></img>
+                    <div class="card-body">
+                        <h5 class="card-title">ธนบดี เทพารักษ์</h5>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card" style="width: 220px;">
+                    <img class="card-img-top border" src="{% static 'man.png'%}" height="200px"></img>
+                    <div class="card-body">
+                        <h5 class="card-title">วรศิริ คุณาภาเลิศ</h5>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <div class="footer">
         <p>
             Github : <a href="https://github.com/vorasiri/NoteSpace">notespace</a><br>
-            Contact : zunchero@gmail.com
         </p>
     </div>
 {% endblock context %}
