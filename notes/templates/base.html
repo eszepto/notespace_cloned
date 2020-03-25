@@ -15,7 +15,7 @@
 
     
     <!-- Nav Bar -->
-    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm container-fluid" >
         <div class="my-0 mr-md-auto font-weight-large ";>
             <h5>
                 <a href="{% url 'home_page'%}" style="text-decoration: none">
@@ -24,16 +24,23 @@
             </h5>
 
         </div>  
-        <div class="my-0 mr-md-5 ml-md-5 col-md-8 col-sm-5">
+        <div class="my-0 mr-md-5 ml-md-5 col-md-6 " >
             <form class="form-inline mr-md-auto ml-md-auto " action="{% url 'search' %}" method="GET">
                         <input id="searchbox" type="text" class="form-control col-md-10" placeholder="Search" name="q" aria-describedby="basic-addon2" required>
                         <div class="input-group-append ">
                             <button  class="btn btn-outline-secondary col-md-auto " type="submit">Search</button>
                         </div>
             </form>
+        </div> 
+        <div class="col-md-1 align-items-center align-middle  text-center  " >
+            <div>
+                <a href="/help">Help</a>
+                &ensp;&ensp;
+                <a  href="/about">About</a>
             </div>
-
-        <nav class="col-md-1">
+        </div>
+        
+        <nav class="col-md-1 align-items-right align-middle  text-center">
             <a id="upload_btn" class="btn btn-outline-primary"  href="{% url 'upload_page' %}">Upload</a>
         </nav>
 

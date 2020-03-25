@@ -1,8 +1,11 @@
+
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
+from django.http import HttpResponseNotFound
 from .models import Note, Image, Tag, Review
+from django.template.loader import get_template
 # Create your views here.
 def ClearStrSpace(input):
     return " ".join(input.split())
@@ -43,6 +46,19 @@ def detial(request,note_index):
     images = Image.objects.filter(note=n)
     img_url = [i.image.url for i in images]
     return render(request,'detail.html',{'images_url':img_url,'note':n})
+
+def about(request):
+    return render(request, 'about.html')
+
+def help(request):
+    return render(request, 'help_main.html')
+
+def help_detail(request, help_topic):
+    try:
+        get_template("help/%s.html"%(help_topic))
+        return render(request, "help/%s.html"%(help_topic) ) 
+    except:
+        return HttpResponseNotFound("<h1>404 Page not found</h1>")
 
 def search(request):
     query_word = request.GET.get("q",'')

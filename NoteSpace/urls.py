@@ -31,7 +31,9 @@ urlpatterns = [
     url(r'^notes/',include('notes.urls')),
     path("tag/<str:tag>", views.tagQuery, name="tagQuery"),
     url(r'^search/$', views.search, name="search"),
-    
+    url(r'^about/', views.about, name='about'),
+    path("help/", views.help, name='help'),
+    path("help/<str:help_topic>", views.help_detail, name='help_detail'),
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -114,10 +114,13 @@ class NewVisitorTest(LiveServerTestCase):
         
         
         # She found left-right arrow buttons, note image between that and dots in the bottom.
-        left_arrow  = self.browser.find_elements_by_class_name('prev')
-        right_arrow = self.browser.find_elements_by_class_name('next')
+        left_arrow  = self.browser.find_element_by_class_name('prev')
+        self.assertTrue(left_arrow)
+        right_arrow = self.browser.find_element_by_class_name('next')
+        self.assertTrue(right_arrow)
         dots        = self.browser.find_elements_by_class_name('dot')
-        
+        self.assertTrue(dots)
+
         flag9 = False
         flag10 = False
         flag11 = False
@@ -137,6 +140,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertTrue(flag10)
         self.assertTrue(flag11)
         self.assertTrue(flag12)
+
         # When she clicks on the right arrow button, then the next page of the lecture appears.
         # And she clicks on the left arrow button, then the previous page appears.
         
@@ -217,3 +221,6 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertTrue(flag17)
 
         # She proud of herself and close the browser.
+
+    def test_user_can_review(self):
+        pass
