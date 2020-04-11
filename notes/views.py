@@ -10,15 +10,30 @@ from django.template.loader import get_template
 def ClearStrSpace(input):
     return " ".join(input.split())
 
-def home_page(request):
-    notes = Note.objects.order_by('-upload_time')
-    return render(request,'home_page.html',{'notes':notes})
-def upload_page(request):
-    return render(request,'upload_page.html')
-def upload_api(request):
-    filetype_list = ["img", "png", "jpg" ,"jpeg", "tiff", "gif", "bmp"]
-    if request.POST:
-        newnote = Note()
+def home_page(request):  # path - <domain>/
+    notes = Note.objects.order_by('-upload_time')           # get all notes in db orderby latest upload time
+    return render(request,'home_page.html',{'notes':notes}) # return return from home_page.html with notes
+
+def about(request): # path - <domain>/about/
+    return render(request, 'about.html')  # return render from about.html
+
+def help(request): # path - <domain>/help/
+    return render(request, 'help_main.html') # return render from help_main.html
+
+def help_detail(request, help_topic): # 
+    try:
+        get_template("help/%s.html"%(help_topic))
+        return render(request, "help/%s.html"%(help_topic) ) 
+    except:
+        return HttpResponseNotFound("<h1>404 Page not found</h1>")
+
+def upload_page(request): # path - <domain>/upload/
+    return render(request,'upload_page.html') 
+
+def upload_api(request): # path - <domain>/api/upload/
+    filetype_list = ["img", "png", "jpg" ,"jpeg", "tiff", "gif", "bmp"]   
+    if request.POST: 
+        newnote = Note()  
         newnote.name  =  ClearStrSpace(request.POST['name'])
         newnote.owner =  ClearStrSpace(request.POST['guestname'])
         newnote.desc  =  ClearStrSpace(request.POST['desc'])
@@ -41,27 +56,14 @@ def upload_api(request):
         return HttpResponseRedirect('/')
     return HttpResponseRedirect('/')
 
-def detial(request,note_index):
+def detial(request,note_index): # path - <domain>/<note_index>/
     n = get_object_or_404(Note, pk=note_index)
     images = Image.objects.filter(note=n)
     img_url = [i.image.url for i in images]
     return render(request,'detail.html',{'images_url':img_url,'note':n})
 
-def about(request):
-    return render(request, 'about.html')
-
-def help(request):
-    return render(request, 'help_main.html')
-
-def help_detail(request, help_topic):
-    try:
-        get_template("help/%s.html"%(help_topic))
-        return render(request, "help/%s.html"%(help_topic) ) 
-    except:
-        return HttpResponseNotFound("<h1>404 Page not found</h1>")
-
-def search(request):
-    query_word = request.GET.get("q",'')
+def search(request): # path - <domain>/search?q=<query_word>/
+    query_word = request.GET.get("q",'') 
     searched_notes = Note.objects.filter(Q(name__icontains=query_word) | 
                                             Q(desc__icontains=query_word) |
                                             Q(tags__title__icontains=query_word) 
@@ -72,11 +74,11 @@ def search(request):
         'search_key':query_word,
         'searched_notes':searched_notes })
 
-def tagQuery(request, tag_title):
+def tagQuery(request, tag_title): # path - <domain>/tag/<tag_name>
     query_tag = get_object_or_404(Tag , title=tag_title)
     return render(request, 'tag_result.html',{'tag':query_tag})
 
-def addcomment_api(request):
+def addcomment_api(request): # path - <domain>/api/addcomment/
     note_id = request.POST['note_id']
     n = Note.objects.get(id=note_id)
 
