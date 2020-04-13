@@ -69,7 +69,7 @@ def detial(request,note_index): # path - <domain>/<note_index>/
     return render(request,'detail.html',{'images_url':img_url,'note':n})  # return datail.html
 
 def search(request): # path - <domain>/search?q=<query_word>/
-    query_word = request.GET.get("q",'')        # 
+    query_word = request.GET.get("q",'')        # set query_word value from request parameter 'q'
     searched_notes = Note.objects.filter(Q(name__icontains=query_word) |         # get notes from database by using query with name or description or tag
                                             Q(desc__icontains=query_word) |
                                             Q(tags__title__icontains=query_word) 
@@ -84,19 +84,20 @@ def tagQuery(request, tag_title): # path - <domain>/tag/<tag_name>
     query_tag = get_object_or_404(Tag , title=tag_title)        # get tag from database by tag_title , if not found return 404
     return render(request, 'tag_result.html',{'tag':query_tag}) # return tag_result.html
 
-def addcomment_api(request): # path - <domain>/api/addcomment/
-    note_id = request.POST['note_id']
-    n = Note.objects.get(id=note_id)
+def addcomment_api(request): # path - <domain>/api/addcomment/    
+    """use for adding comment"""
+    note_id = request.POST['note_id']    # set note_id value from  POST method request parameter 'note_id'
+    n = Note.objects.get(id=note_id)     # use note_id to query note from database then save to  n
 
-    author = request.POST['author']
-    text = request.POST['text']
-    score = float(request.POST['score']) if request.POST['score'] in ["1","2","3","4","5"] else 0
+    author = request.POST['author']     # set author value from  POST method request parameter 'note_id'
+    text = request.POST['text']         # set text value from POST method request parameter 'text'
+    score = float(request.POST['score']) if request.POST['score'] in ["1","2","3","4","5"] else 0   # set score value from POST method request parameter 'score'  if score is number 0-5 else 0 
 
-    review = Review()
-    review.note = n
-    review.author = author
-    review.text = text
-    review.score = score
+    review = Review()   # create new Review
+    review.note = n     # set note of Review from n
+    review.author = author # set author of Review from author
+    review.text = text  # set text of Review from text
+    review.score = score # set score of Review from score
 
-    review.save()
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    review.save()  # save Review to database
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))   # return to current page
