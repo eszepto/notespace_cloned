@@ -63,10 +63,10 @@ def upload_api(request): # path - <domain>/api/upload/
     return HttpResponseRedirect('/')  # if request method isnot POST -> return to homepage
 
 def detial(request,note_index): # path - <domain>/<note_index>/
-    n = get_object_or_404(Note, pk=note_index)
-    images = Image.objects.filter(note=n)
-    img_url = [i.image.url for i in images]
-    return render(request,'detail.html',{'images_url':img_url,'note':n})
+    n = get_object_or_404(Note, pk=note_index)   # get note from database by note_index , if not found return 404
+    images = Image.objects.filter(note=n)        # get images of note from database 
+    img_url = [i.image.url for i in images]      # get list of urls of those images
+    return render(request,'detail.html',{'images_url':img_url,'note':n})  # return datail.html
 
 def search(request): # path - <domain>/search?q=<query_word>/
     query_word = request.GET.get("q",'') 
