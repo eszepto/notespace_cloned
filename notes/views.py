@@ -84,7 +84,7 @@ def tagQuery(request, tag_title): # path - <domain>/tag/<tag_name>
     query_tag = get_object_or_404(Tag , title=tag_title)        # get tag from database by tag_title , if not found return 404
     return render(request, 'tag_result.html',{'tag':query_tag}) # return tag_result.html
 
-def addcomment_api(request): # path - <domain>/api/addcomment/    
+def addReview_api(request): # path - <domain>/api/addcomment/    
     """use for adding comment"""
     note_id = request.POST['note_id']    # set note_id value from  POST method request parameter 'note_id'
     n = Note.objects.get(id=note_id)     # use note_id to query note from database then save to  n

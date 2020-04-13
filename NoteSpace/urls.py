@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'^$',views.home_page, name="home_page"),
     url(r'^upload/',views.upload_page, name='upload_page'),
     url(r'^api/upload/', views.upload_api, name='api_upload'),
-    url(r'^api/addcomment/', views.addcomment_api, name='addcomment_api'),
+    url(r'^api/addreview/', views.addReview_api, name='addcomment_api'),
     url(r'^notes/',include('notes.urls')),
     path("tag/<str:tag>", views.tagQuery, name="tagQuery"),
     url(r'^search/$', views.search, name="search"),
