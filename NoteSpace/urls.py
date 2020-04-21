@@ -29,10 +29,10 @@ urlpatterns = [
     url(r'^api/upload/', views.upload_api, name='api_upload'),
     url(r'^api/addreview/', views.add_review_api, name='addcomment_api'),
     url(r'^notes/',include('notes.urls')),
-    url(r'^search/$', views.search, name="search"),
+    url(r'^search/$', views.searchpage, name="search"),
     url(r'^upload/',views.uploadpage, name='upload_page'),
     
-    path("help/", views.help, name='help'),
+    path("help/", views.helppage, name='help'),
     path("help/<str:help_topic>", views.help_detail, name='help_detail'),
     path("tag/<str:tag>", views.tag_query, name="tagQuery"),
 

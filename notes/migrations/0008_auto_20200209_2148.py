@@ -15,6 +15,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='image',
             name='image',
-            field=sorl.thumbnail.fields.ImageField(upload_to=notes.models.note_directory_path),
+            field=sorl.thumbnail.fields.ImageField(upload_to=notes.models.get_image_uploadto_path),
         ),
     ]

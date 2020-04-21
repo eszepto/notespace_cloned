@@ -10,17 +10,18 @@ from notes.field import RatingField
 class Tag(models.Model):
     title = models.CharField(max_length=250)
     slug = models.SlugField(blank=True, null=True)
-
+    
     class Meta:
         verbose_name = "tag"
         verbose_name_plural = "tags"
         ordering = ['title']
-    
-    
-    def get_absolute_url(self):
-     return "/tags/%s/" % self.slug
+
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return "/tags/%s/" % self.slug
+    
 
 
 class Note(models.Model):
@@ -30,8 +31,6 @@ class Note(models.Model):
     desc = models.CharField(default='',max_length=1000)
     upload_time = models.DateTimeField('upload_time', null=True, default=datetime.datetime.now)
     tags =  models.ManyToManyField(Tag,related_name='notes')
-    mean_score = models.FloatField(default=0)
-    review_count = models.IntegerField(default=0)
     def __str__(self):
         return self.name
     def get_thumb(self):
@@ -42,17 +41,31 @@ class Note(models.Model):
         except:
             return "/media/loading.jpg"
 
+    def get_mean_score(self): #for getting review mean score of note
+        all_reviews = self.reviews
+        score = 0
+        n = len(all_reviews)
+        for review in all_reviews:  
+            score += review.score
+        mean = score/n     #
+        mean = round(x, 2) # round to 2 digit
+        mean = float("{:.2f}".format(mean))  #fix floating point problem to get exactly 2 digit
+        return mean
 
-def note_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/<>/<filename>
-    return '{0}/{1}'.format(instance.note.id, filename)
+
+def get_image_uploadto_path(self,instance, filename): #for getting path for each image file
+    # files will be uploaded to <MEDIA_ROOT>/<note_id>/<filename>
+    return '{0}/{1}'.format(instance.note.id, filename) 
 class Image(models.Model):
     index = models.IntegerField()
     note = models.ForeignKey(Note, on_delete=models.CASCADE, related_name="images")
-    image = ImageField(upload_to=note_directory_path)
-    def get_thumb(self):
-        im = get_thumbnail(self.image, '500x500', crop='center', quality=99)
-        return im.url # remember that sorl objects have url/width/height attributes
+    image = ImageField(upload_to=get_image_uploadto_path)
+    
+    def get_thumbnail(self): # for getting thumbnail url of image
+        im = get_thumbnail(self.image, '500x500', crop='center', quality=99) 
+        return im.url 
+
+    
 
 class Review(models.Model):
     note = models.ForeignKey(Note, on_delete=models.CASCADE, related_name="reviews")
@@ -61,13 +74,7 @@ class Review(models.Model):
     score = models.FloatField(default=0)
     text = models.TextField(max_length=1000)
 
-    def save(self, *args, **kwargs):
-        if(self.score != 0):
-            self.note.mean_score = ((self.note.mean_score * self.note.review_count) + self.score )/\
-                                   (self.note.review_count + 1)
-            self.note.review_count += 1
-            self.note.save()
-        super(Review,self).save(*args, **kwargs)
+    
 
     
 

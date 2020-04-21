@@ -40,7 +40,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('index', models.IntegerField()),
-                ('image', models.ImageField(upload_to=notes.models.note_directory_path)),
+                ('image', models.ImageField(upload_to=notes.models.get_image_uploadto_path)),
                 ('note', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='notes.Note')),
             ],
         ),
