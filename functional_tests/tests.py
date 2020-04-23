@@ -1,12 +1,16 @@
-from django.test import LiveServerTestCase
-from django.test import Client
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 import time
 import datetime
-from selenium.common.exceptions import WebDriverException
-from notes.models import Note,Image
+
+from django.test import LiveServerTestCase
+from django.test import Client
 from django.core.files.uploadedfile import SimpleUploadedFile
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import WebDriverException
+
+from notes.models import Note,Image
+
+
 
 class NewVisitorTest(LiveServerTestCase):
     publishTime = ""
@@ -22,7 +26,6 @@ class NewVisitorTest(LiveServerTestCase):
         econNote.subject = "Economics"
         econNote.desc = "This note is about demands, suplies and how market works."
         econNote.owner = "Susan"
-        publishTime = datetime.datetime.now()
         econNote.save()
 
         img1 = Image()
@@ -222,5 +225,37 @@ class NewVisitorTest(LiveServerTestCase):
 
         # She proud of herself and close the browser.
 
-    def test_user_can_review(self):
-        pass
+    def test_user_can_add_and_view_review(self):
+        self.browser.get(self.live_server_url)
+        self.wait_for_page_update()
+
+        e = self.browser.find_element_by_partial_link_text('Basic Economics')
+        self.browser.execute_script("arguments[0].click();", e)
+        self.wait_for_page_update()
+
+        # She notices the lecture note name, owner name, and description.
+        self.assertIn('Basic Economics', [link.text for link in self.browser.find_elements_by_tag_name('h1')])
+        #self.assertIn( 'Published %s'%(publishTime), [link.text for link in note.find_elements_by_tag_name('span')])
+        self.assertIn('By Susan', [link.text for link in self.browser.find_elements_by_tag_name('span')])   
+        
+        # She write some review
+        star4 = self.browser.find_element_by_id("star4")
+        author = self.browser.find_element_by_id("author_name")
+        textbox = self.browser.find_element_by_id("text")
+        post_button = self.browser.find_element_by_id("submit")
+        
+        star4.click()
+        author.send_keys("Jane")
+        textbox.send_keys("Great!")
+        # She post the review
+        post_button.click()
+        self.wait_for_page_update()
+        
+        # the page refresh and She see her review appear on the website
+        self.browser.refresh()
+        self.assertIn("Jane", [p.text for p in self.browser.find_elements_by_tag_name('p')])
+        self.assertIn("score:4.0", [p.text for p in self.browser.find_elements_by_tag_name('p')])
+        self.assertIn("Great!", [p.text for p in self.browser.find_elements_by_tag_name('p')])
+
+
+        

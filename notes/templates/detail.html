@@ -172,7 +172,7 @@
   </div>
   <p>---------------------------------------------------------------------</p>
   <div id="new_review">
-    <form action="{% url 'addreview_api'%}" method="post" id="addreview_form">
+    <form action="{% url 'add_review_api'%}" method="post" id="add_review_form">
       {% csrf_token %}
       <input name="note_id" value="{{note.id}}" hidden>
 
@@ -190,8 +190,8 @@
       <label for="author_name">Author:</label>
       <input type="text" id="author_name" name="author"><br><br>
       <label for="text">Text:</label>
-      <textarea form="addreview_form" id="text" rows="4" cols="50" name="text"></textarea><br><br>
-      <input type="submit">
+      <textarea form="add_review_form" id="text" rows="4" cols="50" name="text"></textarea><br><br>
+      <input type="submit" id="submit">
     </form>
   </div>
 

@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'^about/', views.about, name='about'),
     url(r'^admin/', admin.site.urls),
     url(r'^api/upload/', views.upload_api, name='api_upload'),
-    url(r'^api/addreview/', views.add_review_api, name='addcomment_api'),
+    url(r'^api/addreview/', views.add_review_api, name='add_review_api'),
     url(r'^notes/',include('notes.urls')),
     url(r'^search/$', views.searchpage, name="search"),
     url(r'^upload/',views.uploadpage, name='upload_page'),

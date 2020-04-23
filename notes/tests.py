@@ -105,21 +105,6 @@ class NoteModelTest(LiveServerTestCase):
 
         search_result = Note.objects.filter(name__trigram_similar="django").filter(desc__trigram_similar="django")
     
-    def test_can_get_review_mean_score(self):
-        n = Note()
-        n.save()
-
-        review1 = Review()
-        review1.note = n
-        review1.score = 5
-        review1.save()
-
-        review2 = Review()
-        review2.note = n
-        review2.score = 4
-        review2.save()
-
-        self.assertEqual(round(n.mean_score, ndigits=2), 4.5)
 
     def test_can_store_and_get_review(self):
         n = Note()
@@ -127,7 +112,7 @@ class NoteModelTest(LiveServerTestCase):
 
         review1 = Review()
         review1.note = n
-        review1.author = "Author 1"
+        review1.author = "Smith"
         review1.score = 5
         review1.text = "very good"
         review1.save()
@@ -136,6 +121,7 @@ class NoteModelTest(LiveServerTestCase):
         self.assertIn(review1, n.reviews.all())
 
         self.assertEqual(n.reviews.all()[0], review1)
+        self.assertEqual(n.reviews.all()[0].author, "Smith")
         self.assertEqual(n.reviews.all()[0].text, "very good")
 
 

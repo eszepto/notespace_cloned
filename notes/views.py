@@ -22,7 +22,7 @@ def detial(request,note_index): # path - <domain>/<note_index>/
     _note = get_object_or_404(Note, pk=note_index)   # get note from database by note_index , if not found return 404
     _images = Image.objects.filter(note=_note)        # get images of note from database 
     img_urls = [i.image.url for i in _images]      # get list of urls of those images
-    return render(request,'detail.html',{'images_url':img_urls,'note':n})  # return datail.html
+    return render(request,'detail.html',{'images_url':img_urls,'note':_note})  # return datail.html
 
 def tag_query(request, tag_title): # path - <domain>/tag/<tag_name> 
     _tag = get_object_or_404(Tag , title=tag_title)        # get tag from database by tag_title , if not found return 404
