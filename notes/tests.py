@@ -124,4 +124,6 @@ class NoteModelTest(LiveServerTestCase):
         self.assertEqual(n.reviews.all()[0].author, "Smith")
         self.assertEqual(n.reviews.all()[0].text, "very good")
 
+    def test_can_create_user(self):
+        pass
 

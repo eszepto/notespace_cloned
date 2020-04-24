@@ -258,4 +258,11 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertIn("Great!", [p.text for p in self.browser.find_elements_by_tag_name('p')])
 
 
+    def test_user_can_register(self):
+        pass
+
+    def test_user_can_login(self):
+        pass
+
+
         

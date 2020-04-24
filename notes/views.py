@@ -5,7 +5,10 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.http import HttpResponseNotFound
+from django.http import JsonResponse
 from django.template.loader import get_template
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
 
 from .models import Note, Image, Tag, Review
 # Create your views here.
@@ -109,3 +112,29 @@ def add_review_api(request): # path - <domain>/api/addcomment/
 
     review.save()  # save Review to database
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))   # return to current page
+
+def register_page(request):
+    return render(request, "register_page.html")
+
+def register_api(request):
+    username = request.POST['username']
+    email = request.POST['email']
+    password = request.POST['password']
+
+    if User.objects.filter(username=username).count() is 0:
+        User.objects.create_user(username, email, password)
+        return JsonResponse({"status":"success"})
+    else:
+        return JsonResponse({"status":"fail"})
+
+def login_api(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        login(request, user)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        
+    else:
+        # Return an 'invalid login' error message.
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

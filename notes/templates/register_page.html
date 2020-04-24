@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+<body>
+    <form action="{% url 'register_api' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="username">username</label>
+        <input type="text" id="username" name="username">
+        <br>
+        <label for="email">email</label>
+        <input type="text" id="email" name="email">
+        <br>
+        <label for="username">password</label>
+        <input type="password" id="password" name="password">
+        <br>
+        <label for="re-password">Re-password</label>
+        <input type="password" id="re-password">
+        <br>
+        <input type="submit" id="submit">
+    </form>
+</body>
+</html>

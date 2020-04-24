@@ -26,9 +26,12 @@ urlpatterns = [
     url(r'^$',views.homepage, name="home_page"),
     url(r'^about/', views.about, name='about'),
     url(r'^admin/', admin.site.urls),
-    url(r'^api/upload/', views.upload_api, name='api_upload'),
     url(r'^api/addreview/', views.add_review_api, name='add_review_api'),
+    url(r'^api/login/', views.login_api, name='login_api'),
+    url(r'^api/register/', views.register_api, name='register_api'),
+    url(r'^api/upload/', views.upload_api, name='upload_api'),
     url(r'^notes/',include('notes.urls')),
+    url(r'^register/', views.register_page, name="register_page"),
     url(r'^search/$', views.searchpage, name="search"),
     url(r'^upload/',views.uploadpage, name='upload_page'),
     
