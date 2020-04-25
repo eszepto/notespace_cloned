@@ -104,7 +104,7 @@
   Tag:
   <span class="tags">
     {% for tag in note.tags.all %}
-        <a href="{% url 'tagQuery' tag.title %}">{{ tag.title }}</a>
+        <a href="{% url 'tag_query' tag.title %}">{{ tag.title }}</a>
     {% endfor %}
   </span>
   <div class="slideshow-container">

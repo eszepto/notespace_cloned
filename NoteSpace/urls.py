@@ -23,21 +23,24 @@ from django.urls import include, path
 from notes import views
 
 urlpatterns = [
-    url(r'^$',views.homepage, name="home_page"),
+    url(r'^$',views.home_page, name="home_page"),
     url(r'^about/', views.about, name='about'),
     url(r'^admin/', admin.site.urls),
     url(r'^api/addreview/', views.add_review_api, name='add_review_api'),
     url(r'^api/login/', views.login_api, name='login_api'),
+    url(r'^api/logout/', views.logout_api, name='logout_api'),
     url(r'^api/register/', views.register_api, name='register_api'),
     url(r'^api/upload/', views.upload_api, name='upload_api'),
+    url(r'^login/', views.login_page, name="login_page"),
+
     url(r'^notes/',include('notes.urls')),
     url(r'^register/', views.register_page, name="register_page"),
-    url(r'^search/$', views.searchpage, name="search"),
-    url(r'^upload/',views.uploadpage, name='upload_page'),
+    url(r'^search/$', views.search_page, name="search"),
+    url(r'^upload/',views.upload_page, name='upload_page'),
     
-    path("help/", views.helppage, name='help'),
+    path("help/", views.help_page, name='help'),
     path("help/<str:help_topic>", views.help_detail, name='help_detail'),
-    path("tag/<str:tag>", views.tag_query, name="tagQuery"),
+    path("tag/<str:tag>", views.tag_query, name="tag_query"),
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

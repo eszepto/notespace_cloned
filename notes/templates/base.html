@@ -24,6 +24,7 @@
             </h5>
 
         </div>  
+
         <div class="my-0 mr-md-5 ml-md-5 col-md-6 " >
             <form class="form-inline mr-md-auto ml-md-auto " action="{% url 'search' %}" method="GET">
                         <input id="searchbox" type="text" class="form-control col-md-10" placeholder="Search" name="q" aria-describedby="basic-addon2" required>
@@ -32,6 +33,7 @@
                         </div>
             </form>
         </div> 
+
         <div class="col-md-1 align-items-center align-middle  text-center  " >
             <div>
                 <a href="/help">Help</a>
@@ -44,7 +46,21 @@
             <a id="upload_btn" class="btn btn-outline-primary"  href="{% url 'upload_page' %}">Upload</a>
         </nav>
 
-        
+        {% if user.is_authenticated %}
+        <div class="col-md-1 align-items-center align-middle  text-center  ">
+            <div>
+                <p>Hello, {{ user.username }}</p>
+                <a href="/api/logout">logout</a>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-md-1 align-items-center align-middle  text-center  ">
+            <div>
+                <a href="/login">login</a><br>
+                <a href="/register">register</a>
+            </div>
+        </div>
+        {% endif %}
 
     </div>
        

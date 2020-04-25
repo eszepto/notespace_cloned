@@ -7,14 +7,14 @@ from django.http import HttpResponseRedirect
 from django.http import HttpResponseNotFound
 from django.http import JsonResponse
 from django.template.loader import get_template
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 
 from .models import Note, Image, Tag, Review
 # Create your views here.
 
 
-def homepage(request):  # path - <domain>/
+def home_page(request):  # path - <domain>/
     notes = Note.objects.order_by('-upload_time')           # get all notes in db orderby latest upload time
     return render(request,'home_page.html',{'notes':notes}) # return return from home_page.html with notes
 
@@ -22,6 +22,7 @@ def about(request): # path - <domain>/about/
     return render(request, 'about.html')  # return render from about.html
 
 def detial(request,note_index): # path - <domain>/<note_index>/
+    print(request.META.get('HTTP_REFERER'))
     _note = get_object_or_404(Note, pk=note_index)   # get note from database by note_index , if not found return 404
     _images = Image.objects.filter(note=_note)        # get images of note from database 
     img_urls = [i.image.url for i in _images]      # get list of urls of those images
@@ -31,7 +32,7 @@ def tag_query(request, tag_title): # path - <domain>/tag/<tag_name>
     _tag = get_object_or_404(Tag , title=tag_title)        # get tag from database by tag_title , if not found return 404
     return render(request, 'tag_result.html',{'tag':_tag}) # return tag_result.html
 
-def helppage(request): # path - <domain>/help/
+def help_page(request): # path - <domain>/help/
     return render(request, 'help_main.html') # return render from help_main.html
 
 def help_detail(request, help_topic): # 
@@ -43,15 +44,18 @@ def help_detail(request, help_topic): #
 
 
 
-def uploadpage(request): # path - <domain>/upload/
-    return render(request,'upload_page.html')  # return upload page
+def upload_page(request): # path - <domain>/upload/
+    if request.user.is_authenticated:
+        return render(request,'upload_page.html')  # return upload page
+    else:
+        return HttpResponseRedirect('/login')
 
 def _clear_str_space(input): # for deleting excess space in String
     return " ".join(input.split())  # "aaaa    bbbb" to "aaaa bbbb"
 
 def upload_api(request): # path - <domain>/api/upload/
     IMAGEFILE_EXTENSIONS = ["img", "png", "jpg" ,"jpeg", "tiff", "gif", "bmp"]   # white list for imagefile extension with lower-case 
-    if request.POST:  # if request method is POST
+    if request.POST and User.is_authenticated():  # if request method is POST
         newnote = Note()   # create new note
         newnote.name  =  _clear_str_space(request.POST['name'])      # set note name with excess space cleared POST[name]
         newnote.owner =  _clear_str_space(request.POST['guestname']) # set note owner with excess space cleared POST[guestname]
@@ -81,7 +85,7 @@ def upload_api(request): # path - <domain>/api/upload/
 
 
 
-def searchpage(request): # path - <domain>/search?q=<query_word>/
+def search_page(request): # path - <domain>/search?q=<query_word>/
     query_word = request.GET.get("q",'')        # set query_word value from request parameter 'q'
     searched_notes = Note.objects.filter(Q(name__icontains=query_word) |         # get notes from database by using query with name or description or tag
                                             Q(desc__icontains=query_word) |
@@ -91,7 +95,8 @@ def searchpage(request): # path - <domain>/search?q=<query_word>/
     return render(request, 'search_result.html',  # return search_result.html
     {
         'search_key':query_word,
-        'searched_notes':searched_notes })   
+        'searched_notes':searched_notes,
+        })   
 
 
 
@@ -127,14 +132,21 @@ def register_api(request):
     else:
         return JsonResponse({"status":"fail"})
 
+def login_page(request):
+    if not(request.user.is_authenticated):
+        return render(request, "login_page.html")
+    else:
+        return HttpResponseRedirect('/')
 def login_api(request):
     username = request.POST['username']
     password = request.POST['password']
     user = authenticate(request, username=username, password=password)
     if user is not None:
         login(request, user)
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-        
+        return JsonResponse({"status":"success"})
     else:
-        # Return an 'invalid login' error message.
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        return JsonResponse({"status":"error"})
+
+def logout_api(request):
+    logout(request)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

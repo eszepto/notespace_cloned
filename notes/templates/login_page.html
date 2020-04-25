@@ -1,4 +1,5 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,67 +42,47 @@
             </div>
         </div>
         
-        <nav class="col-md-1 align-items-right align-middle  text-center">
-            <a id="upload_btn" class="btn btn-outline-primary"  href="{% url 'upload_page' %}">Upload</a>
-        </nav>
+        
 
-        <div class="col-md-1 align-items-center align-middle  text-center  ">
-            <div>
-                <a href="/login">login</a>
-            </div>
-        </div>
+        
 
     </div>
        
         
         
    <!--Content here-->
-   <div id='content'>
         
-        <label for="username">username</label>
-        <input type="text" id="username" name="username">
-        <br>
-        <label for="email">email</label>
-        <input type="text" id="email" name="email">
-        <br>
-        <label for="username">password</label>
-        <input type="password" id="password" name="password">
-        <br>
-        <label for="re-password">Re-password</label>
-        <input type="password" id="re-password">
-        <br>
-        <input type="submit" id="submit">
-        
-    </div>
-    <script>
-        $(document).ready(function () {
+
+        <input type="text" id="username" placeholder="username" name="username"><br>
+        <input type="password" id="password" placeholder="password" name="password"><br>
+        <button type="submit" id="submit">submit</button><br>
+
+        <script>
+            $(document).ready(function () {
             var token = '{{csrf_token}}';
             $("#submit").click(function (event) {
                 $.ajax({
                     headers: { "X-CSRFToken": token },
                     type: "POST",
-                    url: "/api/register/",
+                    url: "/api/login/",
                     data: {
-                        'username': $('#username').val(), // from form
-                        'email': $('#email').val(),
+                        'username': $('#username').val(), 
                         'password': $("#password").val()
                     },
                     success: function (data) {
                         var res = data
                         if (res["status"] === "success"){
-                            $('#content').html("<h2>Register successful!</h2><br><a href='/login'>login here</a>")
+                            window.location.href = "/"
                         }
-                        else{
-                            $("#content").prepend("<p>username already taken</p>")
-                        }
+                        
                     },
-                    error: function(data){
-
-                    }
+                
                 });
             });
         });
-    </script>
+        </script>
+    <a href="#">forgot password?</a><br>
+    <a href="/register">register</a>
     <!---->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
