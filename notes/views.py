@@ -55,7 +55,7 @@ def _clear_str_space(input): # for deleting excess space in String
 
 def upload_api(request): # path - <domain>/api/upload/
     IMAGEFILE_EXTENSIONS = ["img", "png", "jpg" ,"jpeg", "tiff", "gif", "bmp"]   # white list for imagefile extension with lower-case 
-    if request.POST and User.is_authenticated():  # if request method is POST
+    if request.POST and request.user.is_authenticated:  # if request method is POST
         newnote = Note()   # create new note
         newnote.name  =  _clear_str_space(request.POST['name'])      # set note name with excess space cleared POST[name]
         newnote.owner =  _clear_str_space(request.POST['guestname']) # set note owner with excess space cleared POST[guestname]
@@ -118,35 +118,38 @@ def add_review_api(request): # path - <domain>/api/addcomment/
     review.save()  # save Review to database
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))   # return to current page
 
-def register_page(request):
+def register_page(request): # path - <domain>/register    
     return render(request, "register_page.html")
 
-def register_api(request):
+def register_api(request): # path - <domain>/api/register
+    """api for registering user"""
     username = request.POST['username']
     email = request.POST['email']
     password = request.POST['password']
 
-    if User.objects.filter(username=username).count() is 0:
-        User.objects.create_user(username, email, password)
+    if User.objects.filter(username=username).count() is 0:   # if username not in database
+        User.objects.create_user(username, email, password)  
         return JsonResponse({"status":"success"})
     else:
         return JsonResponse({"status":"fail"})
 
-def login_page(request):
-    if not(request.user.is_authenticated):
+def login_page(request): # path - <domain>/login
+    if not(request.user.is_authenticated):  # if user hasn't login
         return render(request, "login_page.html")
-    else:
+    else: # if user already login
         return HttpResponseRedirect('/')
-def login_api(request):
+def login_api(request): # path - <domain>/api/login
+    """api for logging in """
     username = request.POST['username']
     password = request.POST['password']
-    user = authenticate(request, username=username, password=password)
+    user = authenticate(request, username=username, password=password) # auth username and password 
     if user is not None:
-        login(request, user)
+        login(request, user) 
         return JsonResponse({"status":"success"})
     else:
         return JsonResponse({"status":"error"})
 
-def logout_api(request):
+def logout_api(request): # path - <domain>/logout
+    """api for logging out"""
     logout(request)
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER')) # redirect to previous page

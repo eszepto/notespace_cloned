@@ -4,6 +4,7 @@ import datetime
 from django.test import LiveServerTestCase
 from django.test import Client
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.contrib.auth.models import User
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import WebDriverException
@@ -52,14 +53,14 @@ class NewVisitorTest(LiveServerTestCase):
         img4.image = SimpleUploadedFile(name='IMG_0812.JPG', content=open("C:/Users/B/Desktop/NoteSpace/static/TestNotes/Econ/IMG_0812.JPG", 'rb').read(), content_type='image/jpeg') 
         img4.save()
 
-        # self.browser = webdriver.Edge()
+        User.objects.create_user("smith", "smith@abcd.com", "1234") 
         self.browser = webdriver.Firefox()
 
     def tearDown(self):
         self.browser.quit()
 
     def wait_for_page_update(self):
-        time.sleep(1)
+        time.sleep(2)
         MAX_WAIT = 16
         start_time = time.time()
         while True:  
@@ -151,8 +152,21 @@ class NewVisitorTest(LiveServerTestCase):
     def test_user_can_upload(self):
         self.browser.get(self.live_server_url)
         self.wait_for_page_update()
-        # She notices the welcome note that invite her to upload her lecture note.
+        
+        login_text = self.browser.find_element_by_link_text("login")
+        self.browser.execute_script("arguments[0].click();", login_text)
+        self.wait_for_page_update()
 
+        username_box = self.browser.find_element_by_id("username")
+        password_box = self.browser.find_element_by_id("password")
+        submit_button = self.browser.find_element_by_id("submit")
+
+        username_box.send_keys("smith")
+        password_box.send_keys("1234")
+        submit_button.click()
+        self.wait_for_page_update()
+
+        #-------------------
         
         # She found the upload button.
         upload_btn = self.browser.find_element_by_id("upload_btn")
@@ -258,11 +272,45 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertIn("Great!", [p.text for p in self.browser.find_elements_by_tag_name('p')])
 
 
-    def test_user_can_register(self):
-        pass
+    def test_user_can_register_and_login(self):
+        self.browser.get(self.live_server_url)
+        self.wait_for_page_update()
+        self.assertIn("register", [a.text for a in self.browser.find_elements_by_tag_name("a")])
+        register_text = self.browser.find_element_by_link_text("register")
+        self.browser.execute_script("arguments[0].click();", register_text)
+        self.wait_for_page_update()
+        username_box = self.browser.find_element_by_id("username")
+        email_box = self.browser.find_element_by_id("email")
+        password_box = self.browser.find_element_by_id("password")
+        repassword_box = self.browser.find_element_by_id("re-password")
+        submit_button = self.browser.find_element_by_id("submit")
 
-    def test_user_can_login(self):
-        pass
+        username_box.send_keys("john")
+        email_box.send_keys("john@abc.com")
+        password_box.send_keys("1234")
+        repassword_box.send_keys("1234")
+        submit_button.click()
+        self.wait_for_page_update()
 
+        self.assertIn("Register successful!", [h.text for h in self.browser.find_elements_by_tag_name("h2")])
+        self.assertIn("login here", [a.text for a in self.browser.find_elements_by_tag_name("a")])
+
+        login_text = self.browser.find_element_by_link_text("login here")
+        self.browser.execute_script("arguments[0].click();", login_text)
+        self.wait_for_page_update()
+
+        username_box = self.browser.find_element_by_id("username")
+        password_box = self.browser.find_element_by_id("password")
+        submit_button = self.browser.find_element_by_id("submit")
+
+        username_box.send_keys("john")
+        password_box.send_keys("1234")
+        submit_button.click()
+        self.wait_for_page_update()
+
+        self.assertIn("Hello, john", [p.text for p in self.browser.find_elements_by_tag_name("p")])
+
+
+    
 
         
