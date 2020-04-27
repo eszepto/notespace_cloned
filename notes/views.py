@@ -9,6 +9,7 @@ from django.http import JsonResponse
 from django.template.loader import get_template
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import Note, Image, Tag, Review
 # Create your views here.
@@ -17,7 +18,7 @@ from .models import Note, Image, Tag, Review
 def home_page(request):  # path - <domain>/
     notes = Note.objects.order_by('-upload_time')           # get all notes in db orderby latest upload time
     return render(request,'home_page.html',{'notes':notes}) # return return from home_page.html with notes
-
+@csrf_exempt
 def about(request): # path - <domain>/about/
     return render(request, 'about.html')  # return render from about.html
 
@@ -102,42 +103,45 @@ def search_page(request): # path - <domain>/search?q=<query_word>/
 
 def add_review_api(request): # path - <domain>/api/addcomment/    
     """use for adding comment"""
-    note_id = request.POST['note_id']    # set note_id value from  POST method request parameter 'note_id'
-    _note = Note.objects.get(id=note_id)     # use note_id to query note from database then save to  n
+    if request.POST:
+        note_id = request.POST['note_id']    # set note_id value from  POST method request parameter 'note_id'
+        _note = Note.objects.get(id=note_id)     # use note_id to query note from database then save to  n
 
-    author = request.POST['author']     # set author value from  POST method request parameter 'note_id'
-    text = request.POST['text']         # set text value from POST method request parameter 'text'
-    score = float(request.POST['score']) if request.POST['score'] in ["1","2","3","4","5"] else 0   # set score value from POST method request parameter 'score'  if score is number 0-5 else 0 
+        author = request.POST['author']     # set author value from  POST method request parameter 'note_id'
+        text = request.POST['text']         # set text value from POST method request parameter 'text'
+        score = float(request.POST['score']) if request.POST['score'] in ["1","2","3","4","5"] else 0   # set score value from POST method request parameter 'score'  if score is number 0-5 else 0 
 
-    review = Review()   # create new Review
-    review.note = _note     # set note of Review from n
-    review.author = author # set author of Review from author
-    review.text = text  # set text of Review from text
-    review.score = score # set score of Review from score
+        review = Review()   # create new Review
+        review.note = _note     # set note of Review from n
+        review.author = author # set author of Review from author
+        review.text = text  # set text of Review from text
+        review.score = score # set score of Review from score
 
-    review.save()  # save Review to database
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))   # return to current page
+        review.save()  # save Review to database
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))   # return to current page
 
 def register_page(request): # path - <domain>/register    
     return render(request, "register_page.html")
-
+@csrf_exempt
 def register_api(request): # path - <domain>/api/register
     """api for registering user"""
-    username = request.POST['username']
-    email = request.POST['email']
-    password = request.POST['password']
+    if request.POST:
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
 
-    if User.objects.filter(username=username).count() is 0:   # if username not in database
-        User.objects.create_user(username, email, password)  
-        return JsonResponse({"status":"success"})
-    else:
-        return JsonResponse({"status":"fail"})
+        if User.objects.filter(username=username).count() is 0:   # if username not in database
+            User.objects.create_user(username, email, password)  
+            return JsonResponse({"status":"success"})
+        else:
+            return JsonResponse({"status":"fail"})
 
 def login_page(request): # path - <domain>/login
     if not(request.user.is_authenticated):  # if user hasn't login
         return render(request, "login_page.html")
     else: # if user already login
         return HttpResponseRedirect('/')
+@csrf_exempt
 def login_api(request): # path - <domain>/api/login
     """api for logging in """
     username = request.POST['username']
@@ -147,7 +151,7 @@ def login_api(request): # path - <domain>/api/login
         login(request, user) 
         return JsonResponse({"status":"success"})
     else:
-        return JsonResponse({"status":"error"})
+        return JsonResponse({"status":"fail"})
 
 def logout_api(request): # path - <domain>/logout
     """api for logging out"""

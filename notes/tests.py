@@ -1,18 +1,54 @@
-from django.test import TestCase
-from django.test import LiveServerTestCase
-from django.shortcuts import get_object_or_404
-from notes.models import Note, Image, Tag, Review
-from django.core.files.uploadedfile import SimpleUploadedFile
-from django.db.models import Q
 import datetime
 import time
+import json
+import requests
+
+from django.test import TestCase
+from django.test import LiveServerTestCase
+from django.test import Client
+from django.shortcuts import get_object_or_404
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.db.models import Q
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
+
+
+from notes.models import Note, Image, Tag, Review
+
 
 # Create your tests here.
-class Unittest(TestCase):
-    def test_can_resolve_url_to_note_url(self):
+class Unit_test(LiveServerTestCase):
+    def setup(self):
         pass
+    
+    def test_api_can_register(self):
+        response = self.client.post("/api/register/",data={'username':"jay",'email':"jay@abcd.com" ,"password":"123456"},follow=True)
+        response = response.json()
+        self.assertEqual(response["status"], "success")
+
+        jay = User.objects.get(username="jay")
+        self.assertEqual(jay.username, "jay")
+        self.assertEqual(jay.email, "jay@abcd.com")
+        self.assertNotEqual(jay.password, "123456")
+        
+
+    def test_api_can_auth_user(self):
+        User.objects.create_user("george", "george@abcd.com", "1234")
+        
+        response = self.client.post("/api/login/",data={'username':"george", "password":"abcd"},follow=True)
+        response = response.json()
+        self.assertEqual(response["status"], "fail")
+
+        response = self.client.post("/api/login/",data={'username':"george", "password":"1234"},follow=True)
+        response = response.json()
+        self.assertEqual(response["status"], "success")
+        
+
 
 class NoteModelTest(LiveServerTestCase):
+    def setUp(self):
+        pass
+
     def test_database_canbe_query(self):
         note1 = Note()
         note1.id = 5
@@ -125,5 +161,11 @@ class NoteModelTest(LiveServerTestCase):
         self.assertEqual(n.reviews.all()[0].text, "very good")
 
     def test_can_create_user(self):
-        pass
+        user = User.objects.create_user("john", "john@abcd.com", "1234")
+        dbuser = User.objects.get(username="john")
+        self.assertEqual(user, dbuser)
+
+    
+
+        
 
