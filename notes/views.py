@@ -80,9 +80,9 @@ def upload_api(request): # path - <domain>/api/upload/
             newnote.delete()  # delete that note from database
             return HttpResponse("File Type Error")  # and return "file type error"
         
-        return HttpResponseRedirect('/')  # return to to homepage
+        return JsonResponse({'status':'success'})  # return to to homepage
         
-    return HttpResponseRedirect('/')  # if request method isnot POST -> return to homepage
+    return JsonResponse({'status':'fail'})  # if request method isnot POST -> return to homepage
 
 
 

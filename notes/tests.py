@@ -45,8 +45,13 @@ class Unit_test(LiveServerTestCase):
         bob = User.objects.get(username="bob")
         self.assertEqual(bob.username, "bob")
         self.assertEqual(bob.email, "bob@abcd.com")
-        
     
+    def test_api_cant_upload_without_login(self):
+        img1 = SimpleUploadedFile(name='1.jpg', content=open("C:/Users/B/Desktop/NoteSpace/static/TestNotes/Math/IMG_0815.JPG", 'rb').read(), content_type='image/jpeg') 
+        response = self.client.post("/api/upload/",data={'name':"noteNo1",'guestname':'boy','desc':'','imagefiles':[img1]},follow=True)
+        response = response.json()
+        self.assertEqual(response["status"], "fail")
+        
     def test_api_can_auth_user(self):
         User.objects.create_user("george", "george@abcd.com", "1234")
         
