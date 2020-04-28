@@ -32,6 +32,19 @@ class Unit_test(LiveServerTestCase):
         self.assertEqual(jay.username, "jay")
         self.assertEqual(jay.email, "jay@abcd.com")
         self.assertNotEqual(jay.password, "123456")
+    
+    def test_api_cant_register_same_username(self):
+        response = self.client.post("/api/register/",data={'username':"bob",'email':"bob@abcd.com" ,"password":"123456"},follow=True)
+        response = response.json()
+        self.assertEqual(response["status"], "success")
+
+        response = self.client.post("/api/register/",data={'username':"bob",'email':"bobby@abcd.com" ,"password":"123456"},follow=True)
+        response = response.json()
+        self.assertEqual(response["status"], "fail")
+
+        bob = User.objects.get(username="bob")
+        self.assertEqual(bob.username, "bob")
+        self.assertEqual(bob.email, "bob@abcd.com")
         
     
     def test_api_can_auth_user(self):
