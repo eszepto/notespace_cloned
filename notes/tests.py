@@ -21,6 +21,8 @@ class Unit_test(LiveServerTestCase):
     def setup(self):
         pass
     
+
+
     def test_api_can_register(self):
         response = self.client.post("/api/register/",data={'username':"jay",'email':"jay@abcd.com" ,"password":"123456"},follow=True)
         response = response.json()
@@ -31,7 +33,7 @@ class Unit_test(LiveServerTestCase):
         self.assertEqual(jay.email, "jay@abcd.com")
         self.assertNotEqual(jay.password, "123456")
         
-
+    
     def test_api_can_auth_user(self):
         User.objects.create_user("george", "george@abcd.com", "1234")
         
@@ -160,10 +162,7 @@ class NoteModelTest(LiveServerTestCase):
         self.assertEqual(n.reviews.all()[0].author, "Smith")
         self.assertEqual(n.reviews.all()[0].text, "very good")
 
-    def test_can_create_user(self):
-        user = User.objects.create_user("john", "john@abcd.com", "1234")
-        dbuser = User.objects.get(username="john")
-        self.assertEqual(user, dbuser)
+    
 
     
 
