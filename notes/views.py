@@ -101,7 +101,7 @@ def search_page(request): # path - <domain>/search?q=<query_word>/
 
 
 
-def add_review_api(request): # path - <domain>/api/addcomment/    
+def add_review_api(request): # path - <domain>/api/addreview/    
     """use for adding comment"""
     if request.POST:
         note_id = request.POST['note_id']    # set note_id value from  POST method request parameter 'note_id'
@@ -109,7 +109,11 @@ def add_review_api(request): # path - <domain>/api/addcomment/
 
         author = request.POST['author']     # set author value from  POST method request parameter 'note_id'
         text = request.POST['text']         # set text value from POST method request parameter 'text'
-        score = float(request.POST['score']) if request.POST['score'] in ["1","2","3","4","5"] else 0   # set score value from POST method request parameter 'score'  if score is number 0-5 else 0 
+        
+        if request.POST['score'] in ["1","2","3","4","5"]:
+            score = float(request.POST['score'])  
+        else: 
+            return JsonResponse({'status':'fail'})  
 
         review = Review()   # create new Review
         review.note = _note     # set note of Review from n
@@ -118,7 +122,7 @@ def add_review_api(request): # path - <domain>/api/addcomment/
         review.score = score # set score of Review from score
 
         review.save()  # save Review to database
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))   # return to current page
+        return JsonResponse({'status':'success'})   # return to current page
 
 def register_page(request): # path - <domain>/register    
     return render(request, "register_page.html")

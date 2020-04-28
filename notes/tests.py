@@ -51,7 +51,24 @@ class Unit_test(LiveServerTestCase):
         response = self.client.post("/api/upload/",data={'name':"noteNo1",'guestname':'boy','desc':'','imagefiles':[img1]},follow=True)
         response = response.json()
         self.assertEqual(response["status"], "fail")
+
+    def test_api_can_add_review(self):
+        sample_note = Note()
+        sample_note.name = 'testing note'
+        sample_note.save()
+        note_id = sample_note.id
+
+        response = self.client.post("/api/addreview/",
+                    data={'note_id':str(note_id),'author':'bobby','text':'very good','score':'5'},
+                    follow=True)
+        self.assertEqual(response.json()["status"], "success")
         
+        review = Review.objects.filter(author='bobby')[0]
+        self.assertEqual(review.note, sample_note)
+        self.assertEqual(review.author, 'bobby')
+        self.assertEqual(review.text, 'very good')
+        self.assertEqual(review.score, 5)
+
     def test_api_can_auth_user(self):
         User.objects.create_user("george", "george@abcd.com", "1234")
         
