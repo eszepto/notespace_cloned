@@ -23,7 +23,6 @@ def about(request): # path - <domain>/about/
     return render(request, 'about.html')  # return render from about.html
 
 def detial(request,note_index): # path - <domain>/<note_index>/
-    print(request.META.get('HTTP_REFERER'))
     _note = get_object_or_404(Note, pk=note_index)   # get note from database by note_index , if not found return 404
     _images = Image.objects.filter(note=_note)        # get images of note from database 
     img_urls = [i.image.url for i in _images]      # get list of urls of those images

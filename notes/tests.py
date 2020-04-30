@@ -21,8 +21,6 @@ class Unit_test(LiveServerTestCase):
     def setup(self):
         pass
     
-
-
     def test_api_can_register(self):
         response = self.client.post("/api/register/",data={'username':"jay",'email':"jay@abcd.com" ,"password":"123456"},follow=True)
         response = response.json()
@@ -85,15 +83,6 @@ class Unit_test(LiveServerTestCase):
 class NoteModelTest(LiveServerTestCase):
     def setUp(self):
         pass
-
-    def test_database_canbe_query(self):
-        note1 = Note()
-        note1.id = 5
-        note1.name = "for testing"
-        note1.save()
-
-        n=Note.objects.filter(id=5)[0]
-        self.assertEqual(n.name, "for testing")
 
 
     def test_database_can_save_and_get_one_Note_multiple_images(self):
