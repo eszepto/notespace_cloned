@@ -102,7 +102,7 @@ def search_page(request): # path - <domain>/search?q=<query_word>/
 
 def add_review_api(request): # path - <domain>/api/addreview/    
     """use for adding comment"""
-    if request.POST:
+    if request.POST and request.user.is_authenticated:
         note_id = request.POST['note_id']    # set note_id value from  POST method request parameter 'note_id'
         _note = Note.objects.get(id=note_id)     # use note_id to query note from database then save to  n
 

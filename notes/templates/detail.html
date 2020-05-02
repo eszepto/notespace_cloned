@@ -155,6 +155,7 @@
       slides[slideIndex - 1].style.display = "block";
       dots[slideIndex - 1].className += " active";
     }
+    
   </script>
 </div>
 <div id="reviews">
@@ -174,25 +175,46 @@
   <div id="new_review">
     <form action="{% url 'add_review_api'%}" method="post" id="add_review_form">
       {% csrf_token %}
+      <div style="position: relative;float: left;">
       <input name="note_id" value="{{note.id}}" hidden>
 
-      <input type="radio" id="star5" name="score" value="5" >
+      <input type="radio" id="star5" class="review" name="score" value="5" >
       <label for="star5">5</label>
-      <input type="radio" id="star4" name="score" value="4">
+      <input type="radio" id="star4" class="review" name="score" value="4">
       <label for="star4">4</label>
-      <input type="radio" id="star3" name="score" value="3">
+      <input type="radio" id="star3" class="review" name="score" value="3">
       <label for="star3">3</label>
-      <input type="radio" id="star2" name="score" value="2">
+      <input type="radio" id="star2" class="review" name="score" value="2">
       <label for="star2">2</label>
-      <input type="radio" id="star1" name="score" value="1">
+      <input type="radio" id="star1" class="review" name="score" value="1">
       <label for="star1">1</label>
+     
       <br>
+
       <label for="author_name">Author:</label>
-      <input type="text" id="author_name" name="author"><br><br>
-      <label for="text">Text:</label>
-      <textarea form="add_review_form" id="text" rows="4" cols="50" name="text"></textarea><br><br>
-      <input type="submit" id="submit">
+      <input type="text" id="author_name" class="review" name="author">
+      
+      <br>
+      <br>
+      
+      
+
+      <div id="textarea-container" style="position: relative;float: left;">
+        <label for="text">Text:</label>
+        <div id="textarea-container">
+          <textarea form="add_review_form" class="review" id="text" rows="4" cols="50" name="text"></textarea><br><br>
+        </div>  
+      </div>
+      <br>
+      <input type="submit"  class="review" id="submit">
+    </div>
     </form>
+    {% if not user.is_authenticated %}
+    <script type="text/javascript">
+        $(".review").prop('disabled', true);
+        $("#textarea-container").append('<div style="position: absolute;top: 35px;"><h5>You need to login before<h5></div>')
+    </script>
+    {% endif %}
   </div>
 
 {% endblock context %}
