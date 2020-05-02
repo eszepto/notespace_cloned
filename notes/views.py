@@ -79,9 +79,9 @@ def upload_api(request): # path - <domain>/api/upload/
             newnote.delete()  # delete that note from database
             return HttpResponse("File Type Error")  # and return "file type error"
         
-        return JsonResponse({'status':'success'})  # return to to homepage
+        return HttpResponseRedirect("/")  # return to to homepage
         
-    return JsonResponse({'status':'fail'})  # if request method isnot POST -> return to homepage
+    return HttpResponseRedirect("/")  # if request method isnot POST -> return to homepage
 
 
 
@@ -121,7 +121,7 @@ def add_review_api(request): # path - <domain>/api/addreview/
         review.score = score # set score of Review from score
 
         review.save()  # save Review to database
-        return JsonResponse({'status':'success'})   # return to current page
+        return HttpResponseRedirect(f"/notes/{note_id}/")   # return to current page
 
 def register_page(request): # path - <domain>/register    
     return render(request, "register_page.html")

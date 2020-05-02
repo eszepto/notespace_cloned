@@ -238,8 +238,35 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertTrue(flag17)
 
         # She proud of herself and close the browser.
+    
+    def test_user_can_add_and_view_review_after_login(self):
+        self.browser.get(self.live_server_url)
+        self.wait_for_page_update()
 
-    def test_user_can_add_and_view_review(self):
+        e = self.browser.find_element_by_partial_link_text('Basic Economics')
+        self.browser.execute_script("arguments[0].click();", e)
+        self.wait_for_page_update()
+        
+        post_button = self.browser.find_element_by_id("submit")
+        self.assertFalse(post_button.is_enabled())
+        h5 = self.browser.find_elements_by_tag_name("h5")
+        self.assertIn("You need to login before", [h.text for h in h5])
+
+        #---------------------
+        login_text = self.browser.find_element_by_link_text("login")
+        self.browser.execute_script("arguments[0].click();", login_text)
+        self.wait_for_page_update()
+
+        username_box = self.browser.find_element_by_id("username")
+        password_box = self.browser.find_element_by_id("password")
+        submit_button = self.browser.find_element_by_id("submit")
+
+        username_box.send_keys("smith")
+        password_box.send_keys("1234")
+        submit_button.click()
+        self.wait_for_page_update()
+        
+        #-------------------
         self.browser.get(self.live_server_url)
         self.wait_for_page_update()
 
@@ -247,9 +274,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.browser.execute_script("arguments[0].click();", e)
         self.wait_for_page_update()
 
-        # She notices the lecture note name, owner name, and description.
         self.assertIn('Basic Economics', [link.text for link in self.browser.find_elements_by_tag_name('h1')])
-        #self.assertIn( 'Published %s'%(publishTime), [link.text for link in note.find_elements_by_tag_name('span')])
         self.assertIn('By Susan', [link.text for link in self.browser.find_elements_by_tag_name('span')])   
         
         # She write some review
