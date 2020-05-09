@@ -152,7 +152,9 @@ def login_api(request): # path - <domain>/api/login
     user = authenticate(request, username=username, password=password) # auth username and password 
     if user is not None:
         login(request, user) 
-        return JsonResponse({"status":"success"})
+        request.session["status"] = "loggedin"
+        return JsonResponse({"status":"success",
+                            "username":username})
     else:
         return JsonResponse({"status":"fail"})
 
@@ -160,3 +162,10 @@ def logout_api(request): # path - <domain>/logout
     """api for logging out"""
     logout(request)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER')) # redirect to previous page
+
+def has_login(request):
+    status = request.session.get('status')
+    if status == "loggedin":
+        return JsonResponse({"has_login":True})
+    else:
+        return JsonResponse({"has_login":False})

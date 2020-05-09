@@ -4,10 +4,11 @@
   * {
     box-sizing: border-box
   }
-
+  
   body {
     font-family: Verdana, sans-serif;
     margin: 0
+    
   }
 
   .mySlides {
@@ -94,7 +95,47 @@
       font-size: 11px
     }
   }
+  #shadowbox {
+    position: fixed;
+    z-index: 998;
+    top: 0;
+    
+    height: 100%;
+    width: 100%;
+    background: rgba(0,0,0,0.5);
+  }
+  
+  #banner {
+      position: fixed;
+      z-index: 999;
+      top: 100px;
+      left: 250px;
+      height: 180px;
+      width: 360px;
+      background: rgba(172, 195, 223, 0.5);
+  }
+
+  #close {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    font-family: Arial, Helvetica;
+    font-size: 14px;
+    color: #000;
+    cursor: pointer;
+    font-weight: bold;
+  }
 </style>
+<div id="banner" >
+  <div id="close">Close X</div>
+  <a>You need to login before</a><br>
+  <input type="text" id="username" placeholder="username" name="username"><br>
+  <input type="password" id="password" placeholder="password" name="password"><br>
+  <input type="submit" id="login-submit"></button>
+  <br>
+</div>
+<div id="shadowbox"></div>
+
 <div id="note">
   <h1 style="text-decoration: none;">{{note.name}}</h1>
   <span class="date">Published {{note.upload_time}}</span>
@@ -109,9 +150,9 @@
   </span>
   <div class="slideshow-container">
 
-    {% for i in images_url %}
+    {% for url in images_url %}
       <div class="mySlides">
-        <img class="center-fit note_img" src="{{ i }}"></a>
+        <img class="center-fit note_img" src="{{ url }}">
       </div>
     {% endfor %}
     <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
@@ -119,45 +160,16 @@
   </div>
   <div style="text-align:center">
     {% for i in images_url %}
-    <span class="dot" onclick="currentSlide({{ forloop.counter }})"></span>
+      <span class="dot" onclick="currentSlide({{ forloop.counter }})"></span>
     {% endfor%}
   </div>
   {% if note.desc %}
     <p>{{note.desc}}</p>
   {% endif %}
-
-
-
-  <script>
-    var slideIndex = 1;
-    showSlides(slideIndex);
-
-    function plusSlides(n) {
-      showSlides(slideIndex += n);
-    }
-
-    function currentSlide(n) {
-      showSlides(slideIndex = n);
-    }
-
-    function showSlides(n) {
-      var i;
-      var slides = document.getElementsByClassName("mySlides");
-      var dots = document.getElementsByClassName("dot");
-      if (n > slides.length) { slideIndex = 1 }
-      if (n < 1) { slideIndex = slides.length }
-      for (i = 0; i < slides.length; i++) {
-        slides[i].style.display = "none";
-      }
-      for (i = 0; i < dots.length; i++) {
-        dots[i].className = dots[i].className.replace(" active", "");
-      }
-      slides[slideIndex - 1].style.display = "block";
-      dots[slideIndex - 1].className += " active";
-    }
-    
-  </script>
 </div>
+
+
+
 <div id="reviews">
     <h3>Reviews</h3>
     {% for review in note.reviews.all %}
@@ -173,48 +185,115 @@
   </div>
   <p>---------------------------------------------------------------------</p>
   <div id="new_review">
-    <form action="{% url 'add_review_api'%}" method="post" id="add_review_form">
+    <form action="{% url 'add_review_api'%}" method="POST" id="add_review_form" enctype="multipart/form-data">
       {% csrf_token %}
       <div style="position: relative;float: left;">
-      <input name="note_id" value="{{note.id}}" hidden>
-
-      <input type="radio" id="star5" class="review" name="score" value="5" >
-      <label for="star5">5</label>
-      <input type="radio" id="star4" class="review" name="score" value="4">
-      <label for="star4">4</label>
-      <input type="radio" id="star3" class="review" name="score" value="3">
-      <label for="star3">3</label>
-      <input type="radio" id="star2" class="review" name="score" value="2">
-      <label for="star2">2</label>
-      <input type="radio" id="star1" class="review" name="score" value="1">
-      <label for="star1">1</label>
-     
-      <br>
-
-      <label for="author_name">Author:</label>
-      <input type="text" id="author_name" class="review" name="author">
-      
-      <br>
-      <br>
-      
-      
-
-      <div id="textarea-container" style="position: relative;float: left;">
-        <label for="text">Text:</label>
-        <div id="textarea-container">
-          <textarea form="add_review_form" class="review" id="text" rows="4" cols="50" name="text"></textarea><br><br>
-        </div>  
+        <input name="note_id" value="{{note.id}}" hidden>
+        <input type="radio" id="star5" class="review" name="score" value="5" >
+        <label for="star5">5</label>
+        <input type="radio" id="star4" class="review" name="score" value="4">
+        <label for="star4">4</label>
+        <input type="radio" id="star3" class="review" name="score" value="3">
+        <label for="star3">3</label>
+        <input type="radio" id="star2" class="review" name="score" value="2">
+        <label for="star2">2</label>
+        <input type="radio" id="star1" class="review" name="score" value="1">
+        <label for="star1">1</label>
+        <br>
+        <label for="author_name">Author:</label>
+        <input type="text" id="author_name" class="review" name="author">
+        <br>
+        <br>
+        <div id="textarea-container" style="position: relative;float: left;">
+          <label for="text">Text:</label>
+          <div id="textarea-container">
+            <textarea form="add_review_form" class="review" id="text" rows="4" cols="50" name="text"></textarea><br><br>
+          </div>  
+        </div>
+        <br>
+        <input type="button" class="review" id="submit-btn" value="submit">
+        <input type="submit" id="submit" hidden>
       </div>
-      <br>
-      <input type="submit"  class="review" id="submit">
-    </div>
     </form>
-    {% if not user.is_authenticated %}
-    <script type="text/javascript">
-        $(".review").prop('disabled', true);
-        $("#textarea-container").append('<div style="position: absolute;top: 35px;"><h5>You need to login before<h5></div>')
-    </script>
-    {% endif %}
   </div>
+  
+  
+  <script>
+    var slideIndex = 1;
+    showSlides(slideIndex);
+  
+    function plusSlides(n) {
+      showSlides(slideIndex += n);
+    }
+  
+    function currentSlide(n) {
+      showSlides(slideIndex = n);
+    }
+  
+    function showSlides(n) {
+      var i;
+      var slides = document.getElementsByClassName("mySlides");
+      var dots = document.getElementsByClassName("dot");
+      if (n > slides.length) { slideIndex = 1 }
+      if (n < 1) { slideIndex = slides.length }
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+      }
+      slides[slideIndex - 1].style.display = "block";
+      dots[slideIndex - 1].className += " active";
+    }
+    $(document).ready(function () {
+      $('#shadowbox, #banner').hide()
+        var token = '{{csrf_token}}';
+        $("#submit-btn").click(function (event) {
+            $.ajax({
+                type: "GET",
+                url: "/api/haslogin/",
+                success: function (res) {
+                    console.log(res["has_login"])
+                    if (res["has_login"] === true){ 
+                        $("#submit").click()
+                    }
+                    else{
+                        $('#shadowbox, #banner').show(); 
+                    }  
+                },
+            });
+        });
+        
+        $('#close').click(function() {
+            $(this).parent().hide();
+            $('#shadowbox').hide();
+        });
 
+        $("#login-submit").click(function (event) {
+            $.ajax({
+                headers: { "X-CSRFToken": token },
+                type: "POST",
+                url: "/api/login/",
+                data: {
+                    'username': $('#username').val(), 
+                    'password': $("#password").val()
+                },
+                success: function (data) {
+                    var res = data
+                    if (res["status"] === "success"){
+                        username = res["username"]
+                        console.log(username)
+                        $("#name-box").html(`<div><p>Hello, ${username}</p><a href="/api/logout">logout</a></div>`)
+                        $('#shadowbox, #banner').hide();
+                    }
+                    else{
+                      $("#banner").append("Wrong username or password")
+                    }
+                    
+                },
+            
+            });
+        });
+    });
+  </script>
 {% endblock context %}

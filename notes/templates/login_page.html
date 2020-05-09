@@ -58,7 +58,7 @@
         <button type="submit" id="submit">submit</button><br>
 
         <script>
-            $(document).ready(function () {
+        $(document).ready(function () {
             var token = '{{csrf_token}}';
             $("#submit").click(function (event) {
                 $.ajax({
