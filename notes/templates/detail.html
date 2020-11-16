@@ -6,7 +6,7 @@
   }
   
   body {
-    font-family: Verdana, sans-serif;
+    font-family: 'Poppins', sans-serif;
     margin: 0
     
   }
@@ -86,6 +86,72 @@
     background-color: #717171;
   }
 
+  /* reviews */
+  #reviews, #new_review {
+    padding-left: 10%;
+  }
+
+  .card {
+    border-color: white;
+    width: 40%;
+    padding-bottom: 10%;
+  }
+
+  textarea {
+    border-color: #afacac;
+    border-radius: 10px;
+  }
+
+  #author {
+    padding-right: 3%;
+  }
+
+  #submit-btn {
+    
+  }
+
+  /* rating */ 
+  .hide {
+    display: none;
+  }
+
+  .clear {
+    float: none;
+    clear: both;
+  }
+
+  .rating {
+    width: 90px;
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    text-align: center;
+    position: relative;
+  }
+
+  .rating > label {
+    display: inline;
+    position: relative;
+    width: 1.1em;
+    cursor: pointer;
+    color: #000;
+  }
+
+  .rating > label:hover,
+  .rating > label:hover ~ label,
+  .rating > input.radio-btn:checked ~ label {
+      color: transparent;
+  }
+
+  .rating > label:hover:before,
+  .rating > label:hover ~ label:before,
+  .rating > input.radio-btn:checked ~ label:before,
+  .rating > input.radio-btn:checked ~ label:before {
+      content: "\2605";
+      position: absolute;
+      left: 0;
+      color: #e2c359;
+  }
+
   /* On smaller screens, decrease text size */
   @media only screen and (max-width: 300px) {
 
@@ -126,6 +192,7 @@
     font-weight: bold;
   }
 </style>
+
 <div id="banner" >
   <div id="close">Close X</div>
   <a>You need to login before</a><br>
@@ -145,7 +212,7 @@
   Tag:
   <span class="tags">
     {% for tag in note.tags.all %}
-        <a href="{% url 'tag_query' tag.title %}">{{ tag.title }}</a>
+      <a href="{% url 'tag_query' tag.title %}">{{ tag.title }}</a>
     {% endfor %}
   </span>
   <div class="slideshow-container">
@@ -168,55 +235,61 @@
   {% endif %}
 </div>
 
-
-
-<div id="reviews">
-    <h3>Reviews</h3>
-    {% for review in note.reviews.all %}
-      {% if review.author %}
-        <p>{{review.author}}</p>
-      {% else %}
-        <p>anonymous</p>
-      {% endif %}
-      <p>score:{{review.score}}</p>
-      <p>{{ review.text }}</p>
-      <br>
-    {% endfor %}
-  </div>
-  <p>---------------------------------------------------------------------</p>
-  <div id="new_review">
-    <form action="{% url 'add_review_api'%}" method="POST" id="add_review_form" enctype="multipart/form-data">
-      {% csrf_token %}
-      <div style="position: relative;float: left;">
-        <input name="note_id" value="{{note.id}}" hidden>
-        <input type="radio" id="star5" class="review" name="score" value="5" >
-        <label for="star5">5</label>
-        <input type="radio" id="star4" class="review" name="score" value="4">
-        <label for="star4">4</label>
-        <input type="radio" id="star3" class="review" name="score" value="3">
-        <label for="star3">3</label>
-        <input type="radio" id="star2" class="review" name="score" value="2">
-        <label for="star2">2</label>
-        <input type="radio" id="star1" class="review" name="score" value="1">
-        <label for="star1">1</label>
-        <br>
-        <label for="author_name">Author:</label>
-        <input type="text" id="author_name" class="review" name="author">
-        <br>
-        <br>
-        <div id="textarea-container" style="position: relative;float: left;">
-          <label for="text">Text:</label>
-          <div id="textarea-container">
-            <textarea form="add_review_form" class="review" id="text" rows="4" cols="50" name="text"></textarea><br><br>
-          </div>  
-        </div>
-        <br>
-        <input type="button" class="review" id="submit-btn" value="submit">
-        <input type="submit" id="submit" hidden>
+<div class="col d-flex justify-content-center">
+  <div class="card">
+    <div id="reviews">
+        <h3>Reviews</h3>
+        {% for review in note.reviews.all %}
+          {% if review.author %}
+            <p>{{review.author}}</p>
+          {% else %}
+            <p>anonymous</p>
+          {% endif %}
+          <p>score:{{review.score}}</p>
+          <p>{{ review.text }}</p>
+          <br>
+        {% endfor %}
       </div>
-    </form>
+      <hr>
+      <div id="new_review">
+        <form action="{% url 'add_review_api'%}" method="POST" id="add_review_form" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div style="position: relative;float: left;">
+            <input name="note_id" value="{{note.id}}" hidden>
+            <div id="rating-group">
+              <label for="rating" id="rate">Rating</label>
+              <div class="rating">
+                <input id="star5" name="score" type="radio" value="5" class="radio-btn hide"/>
+                <label id ="star" for="star5" >☆</label>
+                <input id="star4" name="score" type="radio" value="4" class="radio-btn hide"/>
+                <label id ="star" for="star4" >☆</label>
+                <input id="star3" name="score" type="radio" value="3" class="radio-btn hide"/>
+                <label id ="star" for="star3" >☆</label>
+                <input id="star2" name="score" type="radio" value="2" class="radio-btn hide"/>
+                <label id ="star" for="star2" >☆</label>
+                <input id="star1" name="score" type="radio" value="1" class="radio-btn hide"/>
+                <label id ="star" for="star1" >☆</label>
+                <div class="clear"></div>
+            </div>
+            </div>
+            <br>
+            <label id="author" for="author_name">Author</label>
+            <input type="text" id="author_name" class="review" name="author">
+            <br>
+            <div id="textarea-container" style="position: relative;float: left;">
+              <label for="text">Text:</label>
+              <div id="textarea-container">
+                <textarea form="add_review_form" class="review" id="text" rows="4" cols="75" name="text"></textarea><br><br>
+              </div>  
+            </div>
+            <br>
+            <button type="button" class="btn btn-primary" id="submit-btn" value="submit">submit</button>
+            <input type="submit" id="submit" hidden>
+          </div>
+        </form>
+      </div>
   </div>
-  
+</div>
   
   <script>
     var slideIndex = 1;
