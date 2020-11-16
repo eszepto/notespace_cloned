@@ -8,14 +8,15 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;600&family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 
     <title>NoteSpace</title>
     <link rel="icon" href="{% static '/logo/NoteSpace_Logo.png' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/login_page.css'%}">
 </head>
 <body>
 
-
-    
     <!-- Nav Bar -->
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm container-fluid" >
         <div class="my-0 mr-md-auto font-weight-large ";>
@@ -51,11 +52,31 @@
         
         
    <!--Content here-->
-        
-
-        <input type="text" id="username" placeholder="username" name="username"><br>
-        <input type="password" id="password" placeholder="password" name="password"><br>
-        <button type="submit" id="submit">submit</button><br>
+    <div class="col d-flex justify-content-center">
+        <div class="card w-25">
+            <article class="card-body"> 
+                <h4 class="card-title mb-4 mt-1">Sign in</h4>
+                <hr>
+                <form>
+                <div class="form-group">
+                    <label for="label_username">Username</label>
+                    <input type="email" class="form-control" id="username" placeholder="username">
+                </div>
+                <div class="form-group">
+                    <label for="label_password">Password</label>
+                    <a class="small float-right" href="#">Forgot password?</a>
+                    <input type="password" class="form-control" id="password" placeholder="password">
+                </div> 
+                <button id="login_btn" type="submit" class="btn btn-primary btn-block">Login</button>
+                <hr>
+                <div id="Register">
+                    <p>Don't have account?</p>
+                    <button id="regis_btn" type="submit" class="btn btn-primary btn-block">Register</button>
+                </div>                                                    
+                </form>
+            </article>
+            </div>
+        </div>
 
         <script>
         $(document).ready(function () {
@@ -81,8 +102,7 @@
             });
         });
         </script>
-    <a href="#">forgot password?</a><br>
-    <a href="/register">register</a>
+
     <!---->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>

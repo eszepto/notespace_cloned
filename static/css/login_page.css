@@ -1,0 +1,30 @@
+/* Content part */ 
+.card {
+    margin-top: 5%;
+    border-radius: 5%;
+    font-family: 'Poppins', sans-serif;
+}
+
+.card-title {
+    text-align: center;
+    font-weight: 600;
+}
+
+label {
+    color: #000974;
+    font-weight: 400;
+}
+
+#login_btn {
+    border-radius: 10px;
+}
+
+#regis_btn {
+    background-color: #000974;
+    border-color: #000974;
+    border-radius: 10px;
+}
+
+#Register {
+    text-align: center;
+}
