@@ -18,7 +18,7 @@
 <body>
 
     <!-- Nav Bar -->
-    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm container-fluid" >
+    <div class="d-flex flex-column flex-md-row align-items-center p-2 px-md-4 mb-3 bg-white border-bottom shadow-sm container-fluid" >
         <div class="my-0 mr-md-auto font-weight-large ";>
             <h5>
                 <a href="{% url 'home_page'%}" style="text-decoration: none">
@@ -27,26 +27,23 @@
             </h5>
 
         </div>  
-        <div class="my-0 mr-md-5 ml-md-5 col-md-6 " >
+        <div class="col-8">
             <form class="form-inline mr-md-auto ml-md-auto " action="{% url 'search' %}" method="GET">
-                        <input id="searchbox" type="text" class="form-control col-md-10" placeholder="Search" name="q" aria-describedby="basic-addon2" required>
-                        <div class="input-group-append ">
-                            <button  class="btn btn-outline-secondary col-md-auto " type="submit">Search</button>
-                        </div>
+                <input id="searchbox" type="text" style="font-family: 'Poppins', sans-serif;" class="form-control col-8" placeholder="Search" name="q" aria-describedby="basic-addon2" required>
+                <div class="input-group-append ">
+                    <button class="btn btn-outline-secondary ml-3" type="submit" style="font-family: 'Poppins', sans-serif;">
+                        <img id="search_img" alt="search" src="{% static 'search.png' %}" height="18px"> Search</button>
+                </div>
             </form>
         </div> 
         <div class="col-md-1 align-items-center align-middle  text-center  " >
             <div>
-                <a href="/help">Help</a>
+                <a style="font-family: 'Poppins', sans-serif;" href="/help">Help</a>
                 &ensp;&ensp;
-                <a  href="/about">About</a>
+                <a style="font-family: 'Poppins', sans-serif;" href="/about">About</a>
             </div>
         </div>
         
-        
-
-        
-
     </div>
        
         
@@ -60,7 +57,7 @@
                 <form>
                 <div class="form-group">
                     <label for="label_username">Username</label>
-                    <input type="email" class="form-control" id="username" placeholder="username">
+                    <input type="text" class="form-control" id="username" placeholder="username">
                 </div>
                 <div class="form-group">
                     <label for="label_password">Password</label>

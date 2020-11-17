@@ -12,13 +12,14 @@
 
     <title>NoteSpace</title>
     <link rel="icon" href="{% static '/logo/NoteSpace_Logo.png' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/css/base.css'%}">
 </head>
 <body>
 
 
     
     <!-- Nav Bar -->
-    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm container-fluid" >
+    <div class="d-flex flex-column flex-md-row align-items-center p-2 px-md-4 mb-3 bg-white border-bottom shadow-sm container-fluid" >
         <div class="my-0 mr-md-auto font-weight-large ";>
             <h5>
                 <a href="{% url 'home_page'%}" style="text-decoration: none">
@@ -28,12 +29,13 @@
 
         </div>  
 
-        <div class="my-0 mr-md-5 ml-md-5 col-md-6 " >
+        <div class="col-7">
             <form class="form-inline mr-md-auto ml-md-auto " action="{% url 'search' %}" method="GET">
-                        <input id="searchbox" type="text" class="form-control col-md-10" placeholder="Search" name="q" aria-describedby="basic-addon2" required>
-                        <div class="input-group-append ">
-                            <button  class="btn btn-outline-secondary col-md-auto " type="submit">Search</button>
-                        </div>
+                <input id="searchbox" type="text" class="form-control col-10" placeholder="Search" name="q" aria-describedby="basic-addon2" required>
+                <div class="input-group-append ">
+                    <button class="btn btn-outline-secondary my-2 my-sm-0 ml-3" type="submit">
+                        <img id="search_img" alt="search" src="{% static 'search.png' %}" height="18px"> Search</button>
+                </div>
             </form>
         </div> 
 
@@ -52,15 +54,22 @@
         {% if user.is_authenticated %}
         <div class="col-md-1 align-items-center align-middle  text-center  " id="name-box">
             <div>
-                <p>Hello, {{ user.username }}</p>
-                <a href="/api/logout">logout</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-4" data-toggle="dropdown"
+                      aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-user"></i> Hello, {{ user.username }} </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
+                      <a class="dropdown-item" href="/api/logout">Log out</a>
+                    </div>
+                </li>
             </div>
         </div>
         {% else %}
         <div class="col-md-1 align-items-center align-middle  text-center  " id="name-box">
             <div>
-                <a href="/login">login</a><br>
-                <a href="/register">register</a>
+                <a id="login" href="/login">Login</a>
+                &nbsp;&nbsp;
+                <a id="register" href="/register">Register</a>
             </div>
         </div>
         {% endif %}

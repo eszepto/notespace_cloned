@@ -19,6 +19,18 @@
     vertical-align: middle;
   }
 
+  /* note information */
+  .date, .tag_label, #note_name {
+    padding-left: 5%;
+  }
+
+  #note_name {
+    background-color: darkblue;
+    line-height: 2em;
+    color:white;
+    font-size: 40px;
+  }
+
   /* Slideshow container */
   .slideshow-container {
     text-align: center;
@@ -104,10 +116,6 @@
 
   #author {
     padding-right: 3%;
-  }
-
-  #submit-btn {
-    
   }
 
   /* rating */ 
@@ -204,12 +212,12 @@
 <div id="shadowbox"></div>
 
 <div id="note">
-  <h1 style="text-decoration: none;">{{note.name}}</h1>
+  <p id="note_name" style="text-decoration: none;">{{note.name}}</p>
   <span class="date">Published {{note.upload_time}}</span>
   &nbsp;
   <span class="owner">By {{note.owner}}</span>
   <br/>
-  Tag:
+  <span class="tag_label">Tag:</span>
   <span class="tags">
     {% for tag in note.tags.all %}
       <a href="{% url 'tag_query' tag.title %}">{{ tag.title }}</a>

@@ -1,0 +1,14 @@
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* search */
+.btn-outline-secondary {
+    color: black;
+}
+
+/* upload */
+#upload_btn {
+    background-color: #007fff;
+    color: white;
+}
