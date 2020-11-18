@@ -1,18 +1,29 @@
 {% extends "base.html" %}
 {% block context %}
+<style>
+    #main {
+        padding-left: 2%;
+        padding-top: 2%;
+        padding-bottom: 2%;
+    }
+</style>
+
 <div id="main">
+    <div class="row">
     {% for note in notes %}
-    <div class="card" style="width: 18rem;">
-        
-        <a href="/notes/{{ note.id }}"><img class="card-img-top" src="{{ note.get_thumb }}" ></img></a>
-        <div class="card-body">
-            <a href="/notes/{{note.id }}"><h5 class="card-title">{{note.name}}</h5></a>
-            <p class="card-text" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;max-width: 300px;">{{note.desc}}</p>
+    <div class="col-sm-2">
+
+        <div class="card" style="width: 18rem; height: 22rem;">
+            
+            <a href="/notes/{{ note.id }}"><img class="card-img-top" src="{{ note.get_thumb }}" ></img></a>
+            <div class="card-body">
+                <a href="/notes/{{note.id }}"><h5 class="card-title">{{note.name}}</h5></a>
+                <p class="card-text" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;max-width: 300px;">{{note.desc}}</p>
+            </div>
+            
         </div>
-        
-    </div>
-    
-    <br/>    
+    </div>    
     {% endfor %}
+    </div>
 </div>
 {% endblock context %}
