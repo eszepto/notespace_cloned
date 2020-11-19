@@ -67,7 +67,7 @@
                 <hr>
                 <div id="Register">
                     <p>Don't have account?</p>
-                    <button id="regis_btn" type="submit" class="btn btn-primary btn-block">Register</button>
+                    <button id="regis_btn" type="button" class="btn btn-primary btn-block" onclick="to_register()">Register</button>
                 </div>                                                    
             </article>
             </div>
@@ -96,6 +96,10 @@
                 });
             });
         });
+
+        function to_register() {
+            location.href = "/register";
+        }
         </script>
 
     <!---->
