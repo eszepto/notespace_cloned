@@ -2,7 +2,7 @@ import datetime
 
 from django.db import models
 from django.db.models import Q
-from sorl.thumbnail import ImageField, get_thumbnail
+from sorl.thumbnail import ImageField
 
 
 # Create your models here.
@@ -32,9 +32,9 @@ class Note(models.Model):
     tags =  models.ManyToManyField(Tag,related_name='notes')
     def __str__(self):
         return self.name
-    def get_thumb(self):
+    def thumbnail_url(self):
         try:
-            i = Image.objects.filter(note=self)[0].get_thumb() # get thumbnail url of first image of note
+            i = self.thumbnail.get().image.url # get thumbnail url of note
             return i 
         except:
             return "/media/error_not_found.jpg"
@@ -51,19 +51,21 @@ class Note(models.Model):
         return mean
 
 
-def get_image_uploadto_path(instance, filename): #for getting path for each image file
+
+def thumbnail_uploadto_path(instance, filename):
+    return '{0}/thumbnail.{1}'.format(instance.note.id, filename.split('.')[-1]) 
+class Thumbnail(models.Model):
+    note = models.ForeignKey(Note, on_delete=models.CASCADE, related_name="thumbnail")
+    image = models.ImageField(upload_to=thumbnail_uploadto_path)
+
+def image_uploadto_path(instance, filename): #for getting path for each image file
     # files will be uploaded to <MEDIA_ROOT>/<note_id>/<filename>
     return '{0}/{1}'.format(instance.note.id, filename) 
 class Image(models.Model):
     index = models.IntegerField()
     note = models.ForeignKey(Note, on_delete=models.CASCADE, related_name="images")
-    image = ImageField(upload_to=get_image_uploadto_path)
-    
-    def get_thumbnail(self): # for getting thumbnail url of image
-        im = get_thumbnail(self.image, '500x500', crop='center', quality=99) 
-        return im.url 
+    image = models.ImageField(upload_to=image_uploadto_path)
 
-    
 
 class Review(models.Model):
     note = models.ForeignKey(Note, on_delete=models.CASCADE, related_name="reviews")

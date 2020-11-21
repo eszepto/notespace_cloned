@@ -4,7 +4,7 @@
     {% for note in notes %}
     <div class="card" style="width: 18rem;">
         
-        <a href="/notes/{{ note.id }}"><img class="card-img-top" src="{{ note.get_thumb }}" ></img></a>
+        <a href="/notes/{{ note.id }}"><img class="card-img-top" src="{{ note.thumbnail_url }}" ></img></a>
         <div class="card-body">
             <a href="/notes/{{note.id }}"><h5 class="card-title">{{note.name}}</h5></a>
             <p class="card-text" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;max-width: 300px;">{{note.desc}}</p>
