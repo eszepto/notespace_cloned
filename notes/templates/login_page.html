@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    
+
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;600&family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 
@@ -28,7 +28,7 @@
                 </a>
             </h5>
 
-        </div>  
+        </div>
         <div class="col-8">
             <form class="form-inline mr-md-auto ml-md-auto " action="{% url 'search' %}" method="GET">
                 <input id="searchbox" type="text" style="font-family: 'Poppins', sans-serif;" class="form-control col-8" placeholder="Search" name="q" aria-describedby="basic-addon2" required>
@@ -37,7 +37,7 @@
                         <img id="search_img" alt="search" src="{% static 'search.png' %}" height="18px"> Search</button>
                 </div>
             </form>
-        </div> 
+        </div>
         <div class="col-md-1 align-items-center align-middle  text-center  " >
             <div>
                 <a style="font-family: 'Poppins', sans-serif;" href="/help">Help</a>
@@ -45,45 +45,39 @@
                 <a style="font-family: 'Poppins', sans-serif;" href="/about">About</a>
             </div>
         </div>
-        
+
     </div>
-       
-        
-        
+
+
+
    <!--Content here-->
     <div class="col d-flex justify-content-center">
         <div class="card w-25">
-            <article class="card-body"> 
+            <article class="card-body">
                 <h4 class="card-title mb-4 mt-1">Sign in</h4>
                 <hr>
-                
-                    <div class="form-group">
-                        <label for="label_username">Username</label>
-                        <input type="text" class="form-control" id="username" placeholder="username">
-                    </div>
-                    <div class="form-group">
-                        <label for="label_password">Password</label>
-                        <a class="small float-right" href="#">Forgot password?</a>
-                        <input type="password" class="form-control" id="password" placeholder="password">
-                    </div> 
-                    <button id="login_btn" class="btn btn-primary btn-block">Login</button>
-                    <hr>
-                    <div id="Register">
-                        <p>Don't have account?</p>
-                        <button id="regis_btn" class="btn btn-primary btn-block">
-                            <a href="/register">
-                                Register
-                            </a>
-                        </button>
-                    </div>                                                    
-                
+                <div class="form-group">
+                    <label for="label_username">Username</label>
+                    <input type="text" class="form-control" id="username" placeholder="username">
+                </div>
+                <div class="form-group">
+                    <label for="label_password">Password</label>
+                    <a class="small float-right" href="#">Forgot password?</a>
+                    <input type="password" class="form-control" id="password" placeholder="password">
+                </div>
+                <button id="submit" type="submit" class="btn btn-primary btn-block">Login</button>
+                <hr>
+                <div id="Register">
+                    <p>Don't have account?</p>
+                    <button id="regis_btn" type="button" class="btn btn-primary btn-block" onclick="to_register()">Register</button>
+                </div>
             </article>
         </div>
     </div>
-    
+
     <script>
     $(document).ready(function () {
-        
+
         var token = '{{csrf_token}}';
         $("#login_btn").click(function (event) {
             console.log("login")
@@ -92,7 +86,7 @@
                 type: "POST",
                 url: "/api/login/",
                 data: {
-                    'username': $('#username').val(), 
+                    'username': $('#username').val(),
                     'password': $("#password").val()
                 },
                 success: function (data) {
@@ -103,19 +97,21 @@
                     else{
 
                     }
-                    
+
                 },
-            
+
             });
         });
-    });
-    </script>
+
+        function to_register() {
+            location.href = "/register";
+        }
+        </script>
 
     <!---->
-    
+
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    
+
 </body>
 </html>
-    

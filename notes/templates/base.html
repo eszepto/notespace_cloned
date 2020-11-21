@@ -9,6 +9,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;600&family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
     <title>NoteSpace</title>
     <link rel="icon" href="{% static '/logo/NoteSpace_Logo.png' %}">
@@ -47,21 +48,19 @@
             </div>
         </div>
         
-        <nav class="col-md-1 align-items-right align-middle  text-center">
+        <nav class="col-1 align-items-right align-middle  text-center">
             <a id="upload_btn" class="btn btn-outline-primary"  href="{% url 'upload_page' %}">Upload</a>
         </nav>
 
         {% if user.is_authenticated %}
-        <div class="col-md-1 align-items-center align-middle  text-center  " id="name-box">
-            <div>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-4" data-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="false">
-                      <i class="fas fa-user"></i> Hello, {{ user.username }} </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
-                      <a class="dropdown-item" href="/api/logout">Log out</a>
-                    </div>
-                </li>
+        <div class="align-items-center align-middle text-center" id="name-box">
+            <div class="btn-group">
+                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-user"></i> {{ user.username }} </a>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="/api/logout">Log out</a>
+                </div>
             </div>
         </div>
         {% else %}
