@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;600&family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+
     <title>NoteSpace</title>
     <link rel="icon" href="{% static '/logo/NoteSpace_Logo.png' %}">
 </head>
@@ -31,18 +34,18 @@
         </div>  
         <div class="col-8">
             <form class="form-inline mr-md-auto ml-md-auto " action="{% url 'search' %}" method="GET">
-                <input id="searchbox" type="text" style="font-family: 'Poppins', sans-serif;" class="form-control col-8" placeholder="Search" name="q" aria-describedby="basic-addon2" required>
+                <input id="searchbox" type="text" class="form-control col-8" placeholder="Search" name="q" aria-describedby="basic-addon2" required>
                 <div class="input-group-append ">
-                    <button class="btn btn-outline-secondary ml-3" type="submit" style="font-family: 'Poppins', sans-serif;">
+                    <button class="btn btn-outline-secondary ml-3" type="submit">
                         <img id="search_img" alt="search" src="{% static 'search.png' %}" height="18px"> Search</button>
                 </div>
             </form>
         </div> 
         <div class="col-md-1 align-items-center align-middle  text-center  " >
             <div>
-                <a style="font-family: 'Poppins', sans-serif;" href="/help">Help</a>
+                <a href="/help">Help</a>
                 &ensp;&ensp;
-                <a style="font-family: 'Poppins', sans-serif;" href="/about">About</a>
+                <a href="/about">About</a>
             </div>
         </div>
         <nav class="col-1 align-items-right align-middle  text-center">

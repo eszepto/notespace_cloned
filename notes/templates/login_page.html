@@ -65,7 +65,7 @@
                     <a class="small float-right" href="#">Forgot password?</a>
                     <input type="password" class="form-control" id="password" placeholder="password">
                 </div>
-                <button id="submit" type="submit" class="btn btn-primary btn-block">Login</button>
+                <button id="login_btn" type="submit" class="btn btn-primary btn-block">Login</button>
                 <hr>
                 <div id="Register">
                     <p>Don't have account?</p>
@@ -102,11 +102,13 @@
 
             });
         });
+    });
+    
+    function to_register() {
+        location.href = "/register";
+    }
 
-        function to_register() {
-            location.href = "/register";
-        }
-        </script>
+    </script>
 
     <!---->
 
