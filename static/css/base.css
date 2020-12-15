@@ -2,6 +2,10 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
+#navbar {
+    background-color: #AFEEEE;
+}
+
 /* search */
 .btn-outline-secondary {
     color: black;

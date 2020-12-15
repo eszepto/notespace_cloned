@@ -6,6 +6,12 @@
         padding-right: 2rem;
         padding-top: 1.5rem;
         padding-bottom: 2rem;
+      
+    }
+
+    body {
+        background-image: linear-gradient(to bottom,#FFF8DC 20%, white 80%);
+        background-repeat: no-repeat;
     }
 
     .row {
@@ -16,12 +22,15 @@
         display: flex;
         flex-wrap: wrap;
         margin-bottom: 20px;
+        border: none;
+        border-radius: 5%;
     }
 
     .card-img-top {
         width: 100%;
         height: 13vw;
         object-fit: cover;
+        border-radius: 5% 5% 0% 0%;
     }
 </style>
 
@@ -30,7 +39,7 @@
     {% for note in notes %}
     <div class="col">
 
-        <div class="card card-shadow" style="max-width: 18rem;">
+        <div class="card card-shadow shadow" style="max-width: 18rem;">
 
             <a href="/notes/{{ note.id }}"><img class="card-img-top" src="{{ note.thumbnail_url }}" ></img></a>
             <div class="card-body">
