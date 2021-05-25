@@ -1,43 +1,139 @@
+:root {
+    --light_blue: #e1f5fe;  
+    --blue: #007fff;
+    --blue_dark: #afc2cb;
+    --grey: #f5f5f5;
+    --grey_dark: #c7c7c7;
+}
+
 body {
     font-family: 'Poppins', sans-serif;
 }
 
-#navbar {
-    background-color: #AFEEEE;
+button:focus {
+    outline: 0 !important;
+}
+
+nav {
+    background-color: var(--light_blue);
+    margin: 10px 0px 5px 0px;
+}
+
+.navbar-brand {
+    margin: 0px 20px 0px -20px;
+}
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    list-style: none;
+}
+
+.navbar-nav .dropdown-menu {
+    position: static;
+    float: none; 
+}
+    
+.nav-link {
+    margin: 0px 5px 0px 5px;
+    padding-right: 0;
+    padding-left: 0; 
 }
 
 /* search */
-.btn-outline-secondary {
-    color: black;
+.btn-search {
+    -webkit-transform: rotate(-45deg); 
+    -moz-transform: rotate(-45deg); 
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    background-color: transparent;
+    border: none;
+    width: 2rem;
+    font-size: 27px;
+    color: #8d8d8d;
+}
+
+.search-box {
+    border-radius: 25px;
+}
+
+#navbar-search input[type=text] {
+    width: 500px;
 }
 
 /* upload */
-#upload_btn {
-    background-color: #007fff;
+.upload_btn {
+    background-color: var(--blue);
+    width: 6rem;
     color: white;
 }
 
-/* Extra small devices (portrait phones) */
-@media (max-width: 575.98px){
-
+/* dropdown info */
+.dropdown-toggle {
+    display: flex;
+    align-items: center;
+    height: 48px; 
+}
+.dropdown-toggle::after {
+    display: none;
+}
+  
+.dropdown-menu {
+    margin-top: 10px;
+    border: 0;
+    box-shadow: 0 0px 40px 0px var(--grey_dark);
 }
 
-/* Small devices (lanscape phones) */
-@media (min-width: 576px) and (max-width: 767.98px) {
-
+.dropdown-item {
+    display: block;
+    width: 100%;
+    clear: both;
+    font-weight: 400;
+    color: #212529;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0; 
+}
+.dropdown-item:hover, .dropdown-item:focus {
+    color: #16181b;
+    text-decoration: none;
+    background-color: #f8f9fa; 
+}
+.dropdown-item.active, .dropdown-item:active {
+    color: #fff;
+    text-decoration: none;
+    background-color: #007bff; 
+}
+.dropdown-item.disabled, .dropdown-item:disabled {
+    color: #6c757d;
+    pointer-events: none;
+    background-color: transparent; 
 }
 
-/* Medium devices (tablets) */
+
+/* responsive */
+@media (max-width: 576px){
+    .container {
+        max-width: 540px;
+    }
+}
+
 @media (min-width: 768px) and (max-width: 991.98px) {
-
+    .container {
+        max-width: 720px; 
+    }
 }
 
-/* Large devices (desktops) */
 @media (min-width: 992px) and (max-width: 1199.98px) {
-
+    .container {
+        max-width: 960px; 
+    }
 }
 
-/* Extra large devices (large desktops) */
 @media (min-width: 1200px) {
-    
+    .container {
+        max-width: 1140px; 
+    }
 }

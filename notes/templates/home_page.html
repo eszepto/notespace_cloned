@@ -1,7 +1,17 @@
 {% extends "base.html" %}
 {% block context %}
 <style>
+    :root {
+        --light_blue: #e1f5fe;  
+        --blue: #007fff;
+        --blue_dark: #afc2cb;
+        --grey: #f5f5f5;
+        --grey_dark: #c7c7c7;
+    }
+
     #main {
+        width: 90%;
+        margin: 5px auto 10px auto;
         padding-left: 2rem;
         padding-right: 2rem;
         padding-top: 1.5rem;
@@ -10,7 +20,7 @@
     }
 
     body {
-        background-image: linear-gradient(to bottom,#FFF8DC 20%, white 80%);
+        background-image: linear-gradient(to bottom,var(--light_blue) 20%, white 80%);
         background-repeat: no-repeat;
     }
 
@@ -35,7 +45,7 @@
 </style>
 
 <div id="main" class="collapse show">
-    <div class="row row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-6">
+    <div class="row row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
     {% for note in notes %}
     <div class="col">
 

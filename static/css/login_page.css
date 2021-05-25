@@ -1,3 +1,11 @@
+:root {
+    --light_blue: #e1f5fe;
+    --blue_dark: #afc2cb;
+    --white: #ffffff;
+    --grey: #f5f5f5;
+    --grey_dark: #c7c7c7;
+}
+
 body {
     font-family: 'Poppins', sans-serif;
 }
