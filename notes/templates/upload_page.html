@@ -12,37 +12,76 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <title>Upload the Lecture note</title>
     <link rel="icon" href="{% static '/logo/NoteSpace_Logo.png' %}" >
+    <link rel="stylesheet" type="text/css" href="{% static '/css/base.css'%}">
     <link rel="stylesheet" type="text/css" href="{% static '/css/upload_page.css'%}">
 </head>
 
 <body>
     <!-- Nav Bar -->
-    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-        <div class="my-0 mr-md-auto font-weight-large ";>
-            <h5>
-                <a href="{% url 'home_page'%}" style="text-decoration: none">
-                    <img border="0" alt="NoteSpace" src="{% static '/logo/NoteSpace_Logo-Name.png' %}" height="50px">
-                </a>
-            </h5>
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a href="{% url 'home_page'%}" class="navbar-brand">
+                <img border="0" alt="NoteSpace" src="{% static '/logo/NoteSpace_Logo-Name.png' %}" height="45px">
+            </a>
+            <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#menu-toggler" 
+            aria-controls="menu-toggler" aria-expanded="false" aria-label="Toggle navigation">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" 
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
+                class="feather feather-menu">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
 
-        </div>  
-        <div class="my-0 mr-md-5 ml-md-5 col-md-8 col-sm-5">
-            <form class="form-inline mr-md-auto ml-md-auto " action="{% url 'search' %}" method="GET">
-                        <input type="text" class="form-control col-md-10" placeholder="Search" name="q" aria-describedby="basic-addon2" required>
-                        <div class="input-group-append ">
-                            <button  class="btn btn-outline-secondary col-md-auto " type="submit">Search</button>
+            <div class="collapse navbar-collapse" id="menu-toggler">
+                <ul class="navbar-nav mx-auto mt-2 mt-lg-0">
+                    <form class="form-inline" id="navbar-search" action="{% url 'search' %}" method="GET">
+                        <div class="form-group">
+                            <input type="text" class="search-box form-control" placeholder="Search" name="q" aria-describedby="basic-addon2" required>
+                            <button class="btn-search" type="submit">&#9906;</button>
                         </div>
-            </form>
-            </div>
-        
-        
-        <div class="col-md-1 align-items-center align-middle  text-center  ">
-            <div>
-                <p>Hello, {{ user.username }}</p>
-                <a href="/api/logout">logout</a>
+                    </form>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle dropdown-toggle-no-text" data-toggle="dropdown" aria-expanded="false">
+                            <span class="d-lg-none">More&nbsp;</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+                            stroke-linejoin="round" class="feather feather-more-horizontal">
+                                <circle cx="12" cy="12" r="1"></circle>
+                                <circle cx="19" cy="12" r="1"></circle>
+                                <circle cx="5" cy="12" r="1"></circle>
+                            </svg>
+                        </a>
+                        <ul class="dropdown-menu mb-3" style="display: none;">
+                            <li class="dropdown-item">
+                                <a href="/help" class="nav-link">Help</a>
+                            </li>
+                            <li class="dropdown-item">
+                                <a href="/about" class="nav-link">About</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <div class="avatar">
+                                <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" width="35" height="35" class="rounded-circle">
+                                <span>{{ user.username }}</span>
+                            </div>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li class="dropdown-item">
+                                <a href="/api/logout" class="nav-link">Log Out</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
         </div>
-    </div>
+    </nav>
 
     <div class="container-fluid">
         <form action="{% url 'upload_api' %}" method="POST" enctype="multipart/form-data" >
@@ -92,10 +131,23 @@
         </form>
     </div>
 
-
-        
     <script type="text/javascript" src="{% static "/js/upload_page.js" %}"></script>
-    
+    <script>
+        $('.dropdown').on('show.bs.dropdown', function(e){
+            $(this).find('.dropdown-menu').first().stop(true, true).slideDown(400);
+        });
+
+        $('.dropdown').on('hide.bs.dropdown', function(e){
+            $(this).find('.dropdown-menu').first().stop(true, true).slideUp(400);
+        });
+
+        $(document).scroll(function () {
+            var $nav = $(".sticky-top");
+            $nav.toggleClass('scrolled', $(this).scrollTop() > $nav.height());
+        });
+    </script>
+        
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>

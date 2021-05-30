@@ -9,19 +9,11 @@
         --grey_dark: #c7c7c7;
     }
 
-    #main {
+    .main {
         width: 90%;
         margin: 5px auto 10px auto;
-        padding-left: 2rem;
-        padding-right: 2rem;
         padding-top: 1.5rem;
         padding-bottom: 2rem;
-      
-    }
-
-    body {
-        background-image: linear-gradient(to bottom,var(--light_blue) 20%, white 80%);
-        background-repeat: no-repeat;
     }
 
     .row {
@@ -44,7 +36,7 @@
     }
 </style>
 
-<div id="main" class="collapse show">
+<div class="main collapse show">
     <div class="row row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
     {% for note in notes %}
     <div class="col">
